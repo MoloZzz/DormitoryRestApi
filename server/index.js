@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const path = require('path');
 
 
 //const sequelize = require('./db/db');
@@ -12,6 +13,8 @@ const PORT = process.env.PORT || 4141;
 const app = express();
 
 app.use('/api', router);
+
+app.use(express.static(path.join(__dirname, '../client')));
 
 app.use(errorHandler);
 
