@@ -1,7 +1,9 @@
 const Router = require('express');
 const router = Router();
 
-router.post('/',()=>{ alert('did not realised'); });
-router.get('/',()=>{ alert('did not realised'); });
+const VisitorController = require('../controllers/visitorController');
+
+router.post('/', VisitorController.create);
+router.get('/', VisitorController.getAll);
 
 module.exports = router;

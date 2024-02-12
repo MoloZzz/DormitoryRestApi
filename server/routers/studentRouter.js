@@ -1,7 +1,10 @@
 const Router = require('express');
 const router = Router();
 
-router.post('/',()=>{ alert('did not realised'); });
-router.get('/',()=>{ alert('did not realised'); });
+const StudentController = require('../controllers/studentController');
+
+router.post('/', StudentController.create);
+router.get('/', StudentController.getAll);
+
 
 module.exports = router;

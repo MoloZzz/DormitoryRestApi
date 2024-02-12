@@ -1,7 +1,9 @@
 const Router = require('express');
 const router = Router();
 
-router.post('/',()=>{ alert('did not realised'); });
-router.get('/',()=>{ alert('did not realised'); });
+const RoomController = require('../controllers/roomController');
+
+router.post('/', RoomController.create);
+router.get('/', RoomController.getAll);
 
 module.exports = router;

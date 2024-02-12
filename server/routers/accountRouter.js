@@ -1,7 +1,9 @@
 const Router = require('express');
 const router = Router();
 
-router.post('/',()=>{ alert('did not realised'); });
-router.get('/',()=>{ alert('did not realised'); });
+const AccountController = require('../controllers/accountController');
+
+router.post('/', AccountController.create);
+router.get('/', AccountController.getAll);
 
 module.exports = router;

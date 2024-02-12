@@ -1,21 +1,21 @@
 const Router = require('express');
 const router = Router();
 
-const userRouter = require('./accountRouter');
-const typeRouter = require('./dormitoryRouter');
-const autorRouter = require('./roomRouter');
-const historyRouter = require('./studentRouter');
-const historyRouter = require('./visitorRouter');
-const historyRouter = require('./workerRouter');
+const accountRouter = require('./accountRouter');
+const dormitoryRouter = require('./dormitoryRouter');
+const roomRouter = require('./roomRouter');
+const studentRouter = require('./studentRouter');
+const visitorRouter = require('./visitorRouter');
+const workerRouter = require('./workerRouter');
 
 
 
-router.use('/account',userRouter);
-router.use('/dormitory',typeRouter);
-router.use('/room',autorRouter);
-router.use('/student',historyRouter);
-router.use('/visitor',historyRouter);
-router.use('/worker',historyRouter);
+router.use('/account', accountRouter);
+router.use('/dormitory', dormitoryRouter);
+router.use('/room', roomRouter);
+router.use('/student', studentRouter);
+router.use('/visitor', visitorRouter);
+router.use('/worker', workerRouter);
 
 
 module.exports = router;

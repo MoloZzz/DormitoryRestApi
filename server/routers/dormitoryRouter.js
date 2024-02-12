@@ -1,7 +1,10 @@
 const Router = require('express');
 const router = Router();
 
-router.post('/',()=>{ alert('did not realised'); });
-router.get('/',()=>{ alert('did not realised'); });
+const DormitoryController = require('../controllers/dormitoryController');
+
+router.post('/', DormitoryController.create);
+router.get('/', DormitoryController.getAll);
+
 
 module.exports = router;
