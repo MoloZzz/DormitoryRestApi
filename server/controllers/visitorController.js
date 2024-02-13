@@ -7,9 +7,7 @@ class VisitorController{
             return res.json("Visitor create");
 
         }catch(e){
-            
             next(ApiError.badRequest(e.message));
-        
         }
         
     }
@@ -21,7 +19,6 @@ class VisitorController{
     async getOne(req,res){
         return res.json("Visitor get one");
     }
-
 }
 
 module.exports = new VisitorController();

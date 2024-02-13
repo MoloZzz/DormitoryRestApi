@@ -7,11 +7,8 @@ class StudentController{
             return res.json("Student create");
 
         }catch(e){
-            
             next(ApiError.badRequest(e.message));
-        
         }
-        
     }
 
     async getAll(req,res){
@@ -21,7 +18,6 @@ class StudentController{
     async getOne(req,res){
         return res.json("Student get one");
     }
-
 }
 
 module.exports = new StudentController();

@@ -25,3 +25,7 @@ nav a {
 nav a:hover {
     background-color: #555; /* Кольоровий код або назва кольору для виділення при наведенні */
 }
+
+nav a.account {
+    margin-left: auto;
+}

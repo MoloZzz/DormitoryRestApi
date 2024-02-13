@@ -5,11 +5,8 @@ class RoomController{
     async create(req,res){
         try{
             return res.json("Room create");
-
         }catch(e){
-            
             next(ApiError.badRequest(e.message));
-        
         }
         
     }
@@ -21,7 +18,6 @@ class RoomController{
     async getOne(req,res){
         return res.json("Room get one");
     }
-
 }
 
 module.exports = new RoomController();

@@ -5,11 +5,8 @@ class WorkerController{
     async create(req,res){
         try{
             return res.json("Worker create");
-
         }catch(e){
-            
             next(ApiError.badRequest(e.message));
-        
         }
         
     }

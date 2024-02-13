@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 
 
-//const sequelize = require('./db/db');
+const sequelize = require('./db/db');
 const router = require('./routers/mainrouter');
 const errorHandler = require("./middleware/ErrorHandlingMiddleware");
 
@@ -18,11 +18,17 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 app.use(errorHandler);
 
-try{
-    app.listen(PORT, () => {
-        console.log(`Server started on port ${PORT}`);
-    })
-
-}catch(e){
-    console.log(e);
+const start = async () =>{
+    try{
+        await sequelize.authenticate();
+        await sequelize.sync();
+        app.listen(PORT, () => {
+            console.log(`Server started on port ${PORT}`);
+        })
+    
+    }catch(e){
+        console.log(e);
+    }
 }
+
+start();
