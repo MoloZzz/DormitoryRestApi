@@ -29,3 +29,11 @@ nav a:hover {
 nav a.account {
     margin-left: auto;
 }
+
+.table-wrapper {
+    margin: 20px; /* відступи від усіх сторін */
+}
+
+th, td {
+    text-align: center;
+}
