@@ -27,6 +27,26 @@ class AccountController{
                 next(ApiError.badRequest(e.message));
         }
     }  
+
+    async changeBalance(req,res,next){
+        try {
+            const {id, balance} = req.body;
+
+            const account = await Account.update(
+                { balance: balance },
+                { where: { id: id }, returning: true}
+            );
+    
+            if(account[0] == 0){
+                next(ApiError.badRequest("Account with this id is not defined"));
+            }
+            
+            return res.json(account);
+            
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
 }
 
 module.exports = new AccountController();
