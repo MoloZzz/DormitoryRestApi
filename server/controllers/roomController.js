@@ -2,10 +2,6 @@ const {Room} = require('../db/models');
 const ApiError = require('../error/ApiError');
 
 class RoomController{
-    //block_number: {type: DataTypes.INTEGER, unique: true},
-    //capacity: {type: DataTypes.INTEGER, unique: false},
-    //free_capacity: {type: DataTypes.INTEGER, unique: false},
-    //room_name: {type: DataTypes.STRING, unique: false}
     
     async create(req,res, next){
         try{
