@@ -1,21 +1,27 @@
+const { Dormitory } = require('../db/models');
 const ApiError = require('../error/ApiError');
 
 class DormitoryController{
-    async create(req,res){
+    async create(req,res, next){
         try{
-            return res.json("Dormitory create");
-
+            const {name, dorm_number} = req.body;
+            const dormitory = await Dormitory.create({name, dorm_number});
+            return res.json(dormitory);
         }catch(e){
             next(ApiError.badRequest(e.message));
         }
     }
 
     async getAll(req,res){
-        return res.json("Dormitory get all");
+        const dorms = await Dormitory.findAll();
+        return res.json(dorms);
     }
 
     async getOne(req,res){
-        return res.json("Dormitory get one");
+        const {id} = req.params;
+        console.log(req.params);
+        const dorm = await Dormitory.findByPk(id);
+        return res.json(dorm);
     }
 }
 

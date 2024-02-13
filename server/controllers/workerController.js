@@ -2,7 +2,7 @@ const ApiError = require('../error/ApiError');
 
 class WorkerController{
     
-    async create(req,res){
+    async create(req,res, next){
         try{
             return res.json("Worker create");
         }catch(e){

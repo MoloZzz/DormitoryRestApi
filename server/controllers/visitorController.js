@@ -2,7 +2,7 @@ const ApiError = require('../error/ApiError');
 
 class VisitorController{
     
-    async create(req,res){
+    async create(req,res, next){
         try{
             return res.json("Visitor create");
 

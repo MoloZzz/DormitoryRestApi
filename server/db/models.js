@@ -19,17 +19,17 @@ const Dormitory = sequelize.define('dormitory',{
 });
 
 const Account = sequelize.define('account', {
-    account_number: {type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true},
+    id: {type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true},
     balance: {type: DataTypes.DECIMAL, unique: false},
     last_update_date: {type: DataTypes.DATE, unique: false}
 });
 
 const Room = sequelize.define('room',{
     id: {type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true},
-    block_number: {type: DataTypes.INTEGER, unique: true},
+    block_number: {type: DataTypes.INTEGER, unique: false},
     capacity: {type: DataTypes.INTEGER, unique: false},
     free_capacity: {type: DataTypes.INTEGER, unique: false},
-    room_name: {type: DataTypes.STRING, unique: false},
+    room_name: {type: DataTypes.STRING, unique: false}
 });
 
 const Visitor = sequelize.define('visitor',{
@@ -51,8 +51,12 @@ const DormitoryWorker = sequelize.define("dormitory_worker", {
     id:{type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true}
 })
 
-Visitor.hasOne(Student);
-Student.belongsToMany(Visitor);
+const StudentVisitor = sequelize.define("student_visitor", {
+    id:{type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true}
+})
+
+Visitor.belongsToMany(Student, {through: StudentVisitor});
+Student.belongsToMany(Visitor, {through: StudentVisitor});
 
 Student.hasOne(Account);
 Account.belongsTo(Student);
