@@ -4,7 +4,8 @@ const { DataTypes } = require('sequelize');
 
 const Student = sequelize.define('student', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    email: { type: DataTypes.STRING, unique: true, allowNull: false },
+    email: { type: DataTypes.STRING, primaryKey: true, unique: true, allowNull: false },
+    password: { type: DataTypes.STRING, unique: false, allowNull: false },
     surname: { type: DataTypes.STRING, unique: false, allowNull: false },
     name: { type: DataTypes.STRING, unique: false, allowNull: false },
     dormitory_num: { type: DataTypes.INTEGER, unique: false, allowNull: false },
