@@ -1,4 +1,4 @@
-const { Student } = require('../db/models');
+const { Student, Account } = require('../db/models');
 const ApiError = require('../error/ApiError');
 
 class StudentController{
@@ -7,6 +7,7 @@ class StudentController{
         try{
             const {email, surname, name, dormitory_num, roomId, contact_info} = req.body;
             const student = await Student.create({email, surname, name, dormitory_num, roomId, contact_info});
+            const account = await Account.create({balance:0, last_update_date: new Date(), studentId: student.id});
             return res.json(student);
         }catch(e){
             next(ApiError.badRequest(e.message));
