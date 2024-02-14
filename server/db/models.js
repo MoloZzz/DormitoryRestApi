@@ -49,11 +49,11 @@ const Worker = sequelize.define('worker', {
 
 const DormitoryWorker = sequelize.define("dormitory_worker", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
-})
+});
 
 const StudentVisitor = sequelize.define("student_visitor", {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
-})
+});
 
 Dormitory.hasMany(Room);
 Room.belongsTo(Dormitory);
