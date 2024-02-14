@@ -52,7 +52,7 @@ const DormitoryWorker = sequelize.define("dormitory_worker", {
 });
 
 const StudentVisitor = sequelize.define("student_visitor", {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true }
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
 Dormitory.hasMany(Room);
@@ -64,11 +64,33 @@ Student.belongsTo(Room);
 Student.hasOne(Account);
 Account.belongsTo(Student);
 
-Visitor.belongsToMany(Student, { through: StudentVisitor, unique: false });
-Student.belongsToMany(Visitor, { through: StudentVisitor, unique: false });
+Visitor.belongsToMany(Student, {
+    through: {
+        model: StudentVisitor,
+        unique: false,
+    },
+});
 
-Dormitory.belongsToMany(Worker, { through: DormitoryWorker, unique: false });
-Worker.belongsToMany(Dormitory, { through: DormitoryWorker, unique: false });
+Student.belongsToMany(Visitor, {
+    through: {
+        model: StudentVisitor,
+        unique: false,
+    },
+});
+
+Dormitory.belongsToMany(Worker, {
+    through: {
+        model: DormitoryWorker,
+        unique: false
+    }
+});
+
+Worker.belongsToMany(Dormitory, {
+    through: {
+        model: DormitoryWorker,
+        unique: false
+    }
+});
 
 module.exports = {
     Dormitory,
