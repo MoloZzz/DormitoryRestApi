@@ -1,27 +1,44 @@
 const { Dormitory } = require('../db/models');
 const ApiError = require('../error/ApiError');
 
-class DormitoryController{
-    async create(req,res, next){
-        try{
-            const {name, dorm_number} = req.body;
-            const dormitory = await Dormitory.create({name, dorm_number});
+class DormitoryController {
+    async create(req, res, next) {
+        try {
+            const { name, dorm_number } = req.body;
+            const dormitory = await Dormitory.create({ name, dorm_number });
             return res.json(dormitory);
-        }catch(e){
+        } catch (e) {
             next(ApiError.badRequest(e.message));
         }
     }
 
-    async getAll(req,res){
+    async getAll(req, res) {
         const dorms = await Dormitory.findAll();
         return res.json(dorms);
     }
 
-    async getOne(req,res){
-        const {id} = req.params;
-        console.log(req.params);
+    async getOne(req, res) {
+        const { id } = req.params;
         const dorm = await Dormitory.findByPk(id);
         return res.json(dorm);
+    }
+
+    async update(req, res, next) {
+        try {
+            const { id } = req.params;
+            const { name, dorm_number } = req.body;
+            const dormitory = await Dormitory.findByPk(id);
+
+            if (!dormitory) {
+                return next(ApiError.badRequest('Гуртожиток не знайдено'));
+            }
+
+            await dormitory.update({ name, dorm_number });
+
+            return res.json(dormitory);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 }
 
