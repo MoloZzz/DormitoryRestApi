@@ -4,6 +4,7 @@ const router = Router();
 const AccountController = require('../controllers/accountController');
 
 router.post('/', AccountController.create);
+router.post('/change', AccountController.changeBalance);
 router.get('/', AccountController.getAll);
 router.get('/:id', AccountController.getOne);
 
