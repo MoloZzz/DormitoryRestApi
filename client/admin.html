@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./web_scripts/adminIndex.js"></script>
+    <script src="./web_scripts/menu_admin.js"></script>
+
+    <title>Студмісто</title>
+</head>
+<body>
+    <header>
+        <h1 style="color: aliceblue">Студмістечко КНУ</h1>
+        <nav>
+            <a href="index.html">Гуртожитки</a>
+            <a href="students.html">Студенти</a>
+            <a href="admin.html">Адмін панель</a>
+            <a href="account.html" class="account">Акаунт</a>
+        </nav>
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <a class="nav-link StudentClass" href="#" onclick="ChangeContent('StudentDiv')">Студент</a>
+                    <a class="nav-link DormitoryClass" href="#" onclick="ChangeContent('DormitoryDiv')">Гуртожиток</a>
+                    <a class="nav-link AccountClass" href="#" onclick="ChangeContent('AccountDiv')">Акаунт</a>
+                    <a class="nav-link RoomClass" href="#" onclick="ChangeContent('RoomDiv')">Кімната</a>
+                    <a class="nav-link VisitorClass" href="#" onclick="ChangeContent('VisitorDiv')">Відвідувач</a>
+                    <a class="nav-link WorkerClass" href="#" onclick="ChangeContent('WorkerDiv')">Робітник</a>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+            
+    <div class="container">
+        <div id="StudentDiv" class="content-div">
+            <div class="col-md-9">
+                <h2>Додати нового студента</h2>
+                <form id="addStudentForm">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Електронна пошта:</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="surname" class="form-label">Прізвище:</label>
+                        <input type="text" class="form-control" id="surname" name="surname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Ім'я:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dormitory_num" class="form-label">Номер гуртожитку:</label>
+                        <input type="text" class="form-control" id="dormitory_num" name="dormitory_num" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="roomId" class="form-label">Номер кімнати(ID не номер):</label>
+                        <input type="text" class="form-control" id="roomId" name="roomId" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact_info" class="form-label">Контактна інформація:</label>
+                        <input type="text" class="form-control" id="contact_info" name="contact_info" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addStudent()">Додати студента</button>
+                </form>
+            </div>
+        </div>
+        
+
+        <div id="DormitoryDiv" class="content-div">
+            <div class="col-md-9">
+                <h2>Додати новий гуртожиток</h2>
+                <form id="addDormitoryForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Назва гуртожитку:</label>
+                        <input type="text" class="form-control" id="dorm_name" name="dorm_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dormNumber" class="form-label">Номер гуртожитку:</label>
+                        <input type="text" class="form-control" id="dormNumber" name="dormNumber" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Адреса гуртожитку:</label>
+                        <input type="text" class="form-control" id="address" name="address" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addDormitory()">Додати гуртожиток</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="AccountDiv" class="content-div">
+            <!-- Зміст для акаунтів -->
+            <h2>Акаунти</h2>
+        </div>
+
+        <div id="RoomDiv" class="content-div">
+            <div class="col-md-9">
+                <h2>Додати нову кімнату</h2>
+                <form id="addRoomForm">
+                    <div class="mb-3">
+                        <label for="block_number" class="form-label">Номер блоку:</label>
+                        <input type="text" class="form-control" id="block_number" name="block_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Вмістимість:</label>
+                        <input type="text" class="form-control" id="capacity" name="capacity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="free_capacity" class="form-label">Вільна вмістимість:</label>
+                        <input type="text" class="form-control" id="free_capacity" name="free_capacity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="room_name" class="form-label">Назва кімнати:</label>
+                        <input type="text" class="form-control" id="room_name" name="room_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dormitoryId" class="form-label">ID гуртожитку:</label>
+                        <input type="text" class="form-control" id="dormitoryId" name="dormitoryId" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addRoom()">Додати кімнату</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="VisitorDiv" class="content-div">
+            <!-- Зміст для відвідувачів -->
+            <h2>Відвідувачі</h2>
+        </div>
+
+        <div id="WorkerDiv" class="content-div">
+            <!-- Зміст для робітників -->
+            <h2>Робітники</h2>
+        </div>
+</body>
+</html>
