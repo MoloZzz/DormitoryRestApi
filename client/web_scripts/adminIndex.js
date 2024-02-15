@@ -1,3 +1,8 @@
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
 async function addDormitory() {
     const name = document.getElementById('dorm_name').value;
     const dorm_number = document.getElementById('dormNumber').value;
@@ -33,6 +38,12 @@ async function addStudent() {
         const roomId = document.getElementById('roomId').value;
         const contact_info = document.getElementById('contact_info').value;
 
+
+        if (!isValidEmail(email)) {
+            alert('Будь ласка, введіть правильну електронну пошту.');
+            return;
+        }
+        
         const response = await fetch('http://localhost:9999/api/student', {
             method: 'POST',
             headers: {
