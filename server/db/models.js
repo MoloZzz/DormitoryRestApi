@@ -15,7 +15,8 @@ const Student = sequelize.define('student',{
 const Dormitory = sequelize.define('dormitory',{
     id: {type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true},
     name: {type: DataTypes.STRING, unique: false},
-    dorm_number: {type: DataTypes.INTEGER, unique: true}
+    dorm_number: {type: DataTypes.INTEGER, unique: true},
+    address: {type: DataTypes.STRING, unique: true}
 });
 
 const Account = sequelize.define('account', {
