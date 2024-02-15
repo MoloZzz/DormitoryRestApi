@@ -7,4 +7,6 @@ router.post('/', DormitoryController.create);
 router.get('/', DormitoryController.getAll);
 router.get('/:id', DormitoryController.getOne);
 
+router.put('/:id', DormitoryController.update);
+
 module.exports = router;
