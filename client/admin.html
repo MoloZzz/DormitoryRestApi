@@ -103,8 +103,32 @@
         </div>
 
         <div id="RoomDiv" class="content-div">
-            <!-- Зміст для кімнат -->
-            <h2>Кімнати</h2>
+            <div class="col-md-9">
+                <h2>Додати нову кімнату</h2>
+                <form id="addRoomForm">
+                    <div class="mb-3">
+                        <label for="block_number" class="form-label">Номер блоку:</label>
+                        <input type="text" class="form-control" id="block_number" name="block_number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Вмістимість:</label>
+                        <input type="text" class="form-control" id="capacity" name="capacity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="free_capacity" class="form-label">Вільна вмістимість:</label>
+                        <input type="text" class="form-control" id="free_capacity" name="free_capacity" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="room_name" class="form-label">Назва кімнати:</label>
+                        <input type="text" class="form-control" id="room_name" name="room_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dormitoryId" class="form-label">ID гуртожитку:</label>
+                        <input type="text" class="form-control" id="dormitoryId" name="dormitoryId" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="addRoom()">Додати кімнату</button>
+                </form>
+            </div>
         </div>
 
         <div id="VisitorDiv" class="content-div">
