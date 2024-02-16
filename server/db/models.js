@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 
 const Student = sequelize.define('student', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    email: { type: DataTypes.STRING, primaryKey: true, unique: true, allowNull: false },
+    email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, unique: false, allowNull: false },
     surname: { type: DataTypes.STRING, unique: false, allowNull: false },
     name: { type: DataTypes.STRING, unique: false, allowNull: false },
@@ -13,11 +13,11 @@ const Student = sequelize.define('student', {
     contact_info: { type: DataTypes.STRING, unique: false, allowNull: true }
 });
 
-const Dormitory = sequelize.define('dormitory',{
-    id: {type: DataTypes.INTEGER, primaryKey: true , autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: false},
-    dorm_number: {type: DataTypes.INTEGER, unique: true},
-    address: {type: DataTypes.STRING, unique: true}
+const Dormitory = sequelize.define('dormitory', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    name: { type: DataTypes.STRING, unique: false, allowNull: false },
+    dorm_number: { type: DataTypes.INTEGER, unique: true, allowNull: false },
+    address: { type: DataTypes.STRING, unique: true, allowNull: false }
 });
 
 const Account = sequelize.define('account', {
@@ -70,6 +70,7 @@ Visitor.belongsToMany(Student, {
     through: {
         model: StudentVisitor,
         unique: false,
+        allowNull: false
     },
 });
 
@@ -77,6 +78,7 @@ Student.belongsToMany(Visitor, {
     through: {
         model: StudentVisitor,
         unique: false,
+        allowNull: false
     },
 });
 
