@@ -47,28 +47,24 @@
                 <h2>Додати нового студента</h2>
                 <form id="addStudentForm">
                     <div class="mb-3">
-                        <label for="email" class="form-label">Електронна пошта:</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
+                        <label for="name" class="form-label">Ім'я:</label>
+                        <input type="text" class="form-control" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
                         <label for="surname" class="form-label">Прізвище:</label>
                         <input type="text" class="form-control" id="surname" name="surname" required>
                     </div>
                     <div class="mb-3">
-                        <label for="name" class="form-label">Ім'я:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <label for="dorm_number" class="form-label">Номер гуртожитку:</label>
+                        <input type="text" class="form-control" id="dorm_number" name="dorm_number" required>
                     </div>
                     <div class="mb-3">
-                        <label for="dormitory_num" class="form-label">Номер гуртожитку:</label>
-                        <input type="text" class="form-control" id="dormitory_num" name="dormitory_num" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="roomId" class="form-label">Номер кімнати(ID не номер):</label>
-                        <input type="text" class="form-control" id="roomId" name="roomId" required>
+                        <label for="room_name" class="form-label">Назва кімнати:</label>
+                        <input type="text" class="form-control" id="room_name" name="room_name" required>
                     </div>
                     <div class="mb-3">
                         <label for="contact_info" class="form-label">Контактна інформація:</label>
-                        <input type="text" class="form-control" id="contact_info" name="contact_info" required>
+                        <input type="text" class="form-control" id="contact_info" name="contact_info">
                     </div>
                     <button type="button" class="btn btn-primary" onclick="addStudent()">Додати студента</button>
                 </form>
@@ -107,6 +103,10 @@
                 <h2>Додати нову кімнату</h2>
                 <form id="addRoomForm">
                     <div class="mb-3">
+                        <label for="room_dorm_number" class="form-label">Номер гуртожитку:</label>
+                        <input type="text" class="form-control" id="room_dorm_number" name="room_dorm_number" required>
+                    </div>
+                    <div class="mb-3">
                         <label for="block_number" class="form-label">Номер блоку:</label>
                         <input type="text" class="form-control" id="block_number" name="block_number" required>
                     </div>
@@ -114,18 +114,7 @@
                         <label for="capacity" class="form-label">Вмістимість:</label>
                         <input type="text" class="form-control" id="capacity" name="capacity" required>
                     </div>
-                    <div class="mb-3">
-                        <label for="free_capacity" class="form-label">Вільна вмістимість:</label>
-                        <input type="text" class="form-control" id="free_capacity" name="free_capacity" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="room_name" class="form-label">Назва кімнати:</label>
-                        <input type="text" class="form-control" id="room_name" name="room_name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dormitoryId" class="form-label">ID гуртожитку:</label>
-                        <input type="text" class="form-control" id="dormitoryId" name="dormitoryId" required>
-                    </div>
+                    
                     <button type="button" class="btn btn-primary" onclick="addRoom()">Додати кімнату</button>
                 </form>
             </div>

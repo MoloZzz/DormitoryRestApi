@@ -1,0 +1,52 @@
+// dorm
+{
+  "name": "Гуртожиток 16",
+  "dorm_number": 16
+}
+
+// room
+{
+  "block_number": 101,
+  "capacity": 2,
+  "free_capacity": 2,
+  "room_name": "101/2",
+  "dormitoryId": 1
+}
+
+// student
+{
+  "email": "example3@example.com",
+  "surname": "Іванова",
+  "name": "Марія",
+  "password": "qwerty",
+  "dormitory_num": 16,
+  "contact_info": "+380660123456",
+  "roomId": 1
+}
+
+{
+  "email": "example4@example.com",
+  "surname": "Коваленко",
+  "name": "Андрій",
+  "password": "qwerty",
+  "dormitory_num": 16,
+  "contact_info": "+380980321654",
+  "roomId": 1
+}
+
+// visitor
+{
+  "surname": "Ковальчук",
+  "name": "Миколай",
+  "passport": "AB123456",
+  "studentId": 1
+}
+
+// workers
+{
+  "surname": "Ольга",
+  "name": "Сергіївна",
+  "passport": "FC123456",
+  "salary": 13000,
+  "position": "Бухгалтер"
+}

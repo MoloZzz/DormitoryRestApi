@@ -12,12 +12,12 @@ class StudentController {
                 return next(ApiError.badRequest('Недостатньо вільних місць у кімнаті'));
             }
 
-            const student = await Student.create({ email, surname, name, password, dormitory_num, roomId, contact_info });
+            const student = await Student.create({ surname, name, dormitory_num, roomId, contact_info });
 
             room.free_capacity -= 1;
             await room.save();
 
-            await Account.create({ balance: 0, last_update_date: new Date(), studentId: student.id });
+            await Account.create({ email, password, balance: 0, last_update_date: new Date(), studentId: student.id });
             return res.json(student);
         } catch (e) {
             next(ApiError.badRequest(e.message));
