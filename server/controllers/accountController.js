@@ -5,8 +5,8 @@ class AccountController {
 
     async create(req, res, next) {
         try {
-            const { student_id } = req.body;
-            const account = await Account.create({ student_id, balance: 0, last_update_date: new Date() });
+            const { student_id, email, password} = req.body;
+            const account = await Account.create({ student_id, balance: 0, last_update_date: new Date(), email, password });
             return res.json(account);
         } catch (e) {
             next(ApiError.badRequest(e.message));
@@ -31,7 +31,7 @@ class AccountController {
     async update(req, res, next) {
         try {
             const { id } = req.params;
-            const { balance, studentId } = req.body;
+            const { balance, studentId, email, password } = req.body;
             const account = await Account.findByPk(id);
 
             if (!account) {
@@ -42,7 +42,7 @@ class AccountController {
                 return next(ApiError.badRequest('Не можна змінити власника рахунку'));
             }
 
-            await account.update({ balance, last_update_date: new Date() });
+            await account.update({ balance, last_update_date: new Date(), email, password });
 
             return res.json(account);
         } catch (e) {
