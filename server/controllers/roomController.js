@@ -1,11 +1,13 @@
-const { Room } = require('../db/models');
+const { Room, Dormitory } = require('../db/models');
 const ApiError = require('../error/ApiError');
+const { validationResult } = require('express-validator');
 
 class RoomController {
 
     async create(req, res, next) {
         try {
-            const { block_number, capacity, free_capacity, room_name, dormitoryId } = req.body;
+            const { block_number, capacity, free_capacity, dormitoryId } = req.body;
+            const room_name = block_number + "/" + capacity;
             const room = await Room.create({ block_number, capacity, free_capacity, room_name, dormitoryId });
             return res.json(room);
         } catch (e) {
@@ -47,6 +49,28 @@ class RoomController {
 
             return res.json(room);
         } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
+    async getByDormNumAndName(req, res, next) {
+        const result = validationResult(req);
+        if(!result.isEmpty()){
+            return res.json({ errors: result.array() })
+        };
+        
+        try{
+            const { room_name, dorm_number } = req.body;
+            const dorm = await Dormitory.findOne({where:{dorm_number}});
+            if (!dorm) {
+                return next(ApiError.badRequest('Гуртожиток не знайдено'));
+            }
+            const room = await Room.findOne({where:{room_name, dormitoryId: dorm.id}});
+            if (!room) {
+                return next(ApiError.badRequest('Кімнату не знайдено'));
+            }
+            return res.json(room);
+        }catch(e){
             next(ApiError.badRequest(e.message));
         }
     }

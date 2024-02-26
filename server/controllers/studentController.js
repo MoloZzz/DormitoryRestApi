@@ -5,7 +5,7 @@ class StudentController {
 
     async create(req, res, next) {
         try {
-            const { email, surname, name, password, dormitory_num, roomId, contact_info } = req.body;
+            const { surname, name, dormitory_num, roomId, contact_info } = req.body;
             let room = await Room.findByPk(roomId);
 
             if (room.free_capacity < 1) {
@@ -17,7 +17,7 @@ class StudentController {
             room.free_capacity -= 1;
             await room.save();
 
-            await Account.create({ email, password, balance: 0, last_update_date: new Date(), studentId: student.id });
+            await Account.create({ balance: 0, last_update_date: new Date(), studentId: student.id });
             return res.json(student);
         } catch (e) {
             next(ApiError.badRequest(e.message));

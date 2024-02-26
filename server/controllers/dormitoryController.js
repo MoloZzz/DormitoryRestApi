@@ -40,6 +40,21 @@ class DormitoryController{
             next(ApiError.badRequest(e.message));
         }
     }
+
+    async getByDormNum(req, res, next){
+        try {
+            const { dorm_number } = req.body;
+            const dorm = await Dormitory.findOne({where:{dorm_number}});
+
+            if (!dorm) {
+                return next(ApiError.badRequest('Гуртожиток не знайдено'));
+            }
+
+            return res.json(dorm);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
 }
 
 module.exports = new DormitoryController();

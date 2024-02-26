@@ -74,6 +74,10 @@ form {
     border-color: #0056b3;
 }
 
+input:invalid {
+    border: 2px dashed red;
+}
+
 #DormitoryDiv,
 #AccountDiv,
 #RoomDiv,
