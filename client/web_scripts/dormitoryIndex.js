@@ -10,6 +10,23 @@ async function fetchDormitories() {
     }
 }
 
+async function viewDormitory(dorm_number){
+
+    const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dorm_number
+            }),
+    });
+
+    const dorm = await dormResp.json();
+    console.log(dorm);
+}
+
+
 async function updateTable() {
     const dormitories = await fetchDormitories();
     const tableBody = document.getElementById('dormitoriesBody');
@@ -24,8 +41,8 @@ async function updateTable() {
             <td>${dormitory.dorm_number}</td>
             <td>${dormitory.name}</td>
             <td>${dormitory.address}</td>
-            <td><button id="dormitoryButton${dormitories.dormitory_num}" onclick="viewDormitory(${dormitories.dormitory_num})"\
-            class="btn btn-secondary" style = "height:auto">Переглянути</button></td>
+            <td><button id="dormitoryButton${dormitory.dorm_number}" onclick="viewDormitory(${dormitory.dorm_number})"\
+            class="btn btn-secondary"">Переглянути</button></td>
         `;
         tableBody.appendChild(row);
     });
@@ -35,4 +52,3 @@ window.onload = updateTable;
 
 
 
-window.onload = updateTable;
