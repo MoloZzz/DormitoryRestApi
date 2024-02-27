@@ -21,12 +21,11 @@ async function updateTable() {
         row.innerHTML = `
             <td>${student.name}</td>
             <td>${student.surname}</td>
-            <td>${student.dormitory_num}</td>
-            <td>Конфіденційно</td>
-            <td>${student.email}</td>
-        `;
+            <td>${student.dormitory_num}</td>`;
         tableBody.appendChild(row);
     });
+
+    console.log(students);
 }
 
 

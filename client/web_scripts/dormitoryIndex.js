@@ -24,6 +24,8 @@ async function updateTable() {
             <td>${dormitory.dorm_number}</td>
             <td>${dormitory.name}</td>
             <td>${dormitory.address}</td>
+            <td><button id="dormitoryButton${dormitories.dormitory_num}" onclick="viewDormitory(${dormitories.dormitory_num})"\
+            class="btn btn-secondary" style = "height:auto">Переглянути</button></td>
         `;
         tableBody.appendChild(row);
     });
