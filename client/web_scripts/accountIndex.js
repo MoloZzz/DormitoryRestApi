@@ -1,5 +1,14 @@
-const exportToExcel = require('../../server/db/importExcel.js');
+async function importTableExel(){
+    try{
+        const response = await fetch('http://localhost:9999/api/account/importExcel', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+    }catch(e){
 
-exportToExcel();
+    }
+}
 
-//не працюватиме, тому що потрібно робити через сервер
+importTableExel();

@@ -6,6 +6,7 @@ const AccountController = require('../controllers/accountController');
 router.post('/', AccountController.create);
 router.get('/', AccountController.getAll);
 router.get('/:id', AccountController.getOne);
+router.get('/importExcel',AccountController.importExcel);
 
 router.put('/:id', AccountController.update);
 

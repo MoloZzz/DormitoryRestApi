@@ -1,6 +1,6 @@
 const { Account } = require('../db/models');
 const ApiError = require('../error/ApiError');
-
+const importExcel = require('../db/importExcel')
 class AccountController {
 
     async create(req, res, next) {
@@ -49,6 +49,16 @@ class AccountController {
             next(ApiError.badRequest(e.message));
         }
     }
+
+    async importExcel(req,res,next){
+        try{
+            importExcel();
+        }catch(e){
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
+
 }
 
 module.exports = new AccountController();
