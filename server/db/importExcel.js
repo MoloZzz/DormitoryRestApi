@@ -121,7 +121,7 @@ async function importToExcel() {
         });
       });
 
-    await workbook.xlsx.writeFile('../client/static/excel_table.xlsx');
+    await workbook.xlsx.writeFile('./static/excel_table.xlsx');
     console.log('Excel файл збережений.');
 
   } catch (error) {
