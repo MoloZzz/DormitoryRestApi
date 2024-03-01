@@ -1,6 +1,7 @@
 const { Account } = require('../db/models');
 const ApiError = require('../error/ApiError');
-const importExcel = require('../db/importExcel')
+const importExcel = require('../db/importExcel');
+
 class AccountController {
 
     async create(req, res, next) {
@@ -13,12 +14,12 @@ class AccountController {
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         const accounts = await Account.findAll();
         return res.json(accounts);
     }
 
-    async getOne(req, res) {
+    async getOne(req, res, next) {
         try {
             const { id } = req.params;
             const account = await Account.findByPk(id);
@@ -50,9 +51,10 @@ class AccountController {
         }
     }
 
-    async importExcel(req,res,next){
+    async importToExcel(req,res, next){
         try{
             importExcel();
+            return res.json('Імпортовано успішно');
         }catch(e){
             next(ApiError.badRequest(e.message));
         }
