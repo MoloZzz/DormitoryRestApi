@@ -135,3 +135,60 @@ async function addRoom() {
         alert('Помилка при додаванні кімнати:', error);
     }
 }
+
+async function addWorker() {
+    try {
+        const name = document.getElementById('WorkerName').value;
+        const surname = document.getElementById('WorkerSurname').value;
+        const salary = document.getElementById('salary').value;
+        const position = document.getElementById('position').value;
+        const dormitory_num = document.getElementById('dormitory_num').value;
+
+        const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dorm_number: dormitory_num,
+            }),
+        });
+
+        if(!dormResp.ok){
+            dormitory_num.value = '';
+            alert("Такого гуртожитку не існує!")
+            return;
+        }
+
+        const dorm = await dormResp.json();
+
+        const dormitory_id = dorm.id;
+
+        const response = await fetch('http://localhost:9999/api/worker', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name,
+                surname,
+                salary,
+                position,
+                dormitory_id,
+            }),
+        });
+
+        if (response.ok) {
+            alert('Працівника успішно додано!');
+            document.getElementById('addWorkerForm').reset();
+        } else {
+            const data = await response.json();
+            alert(`Помилка: ${data.message}`);
+        }
+
+    } catch (error) {
+        console.error('Помилка при додаванні працівника:', error);
+        alert('Помилка при додаванні працівника:', error);
+    }
+}
+
