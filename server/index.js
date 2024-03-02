@@ -15,6 +15,7 @@ app.use(express.json());
 
 app.use('/api', router);
 
+app.use(express.static(path.join(__dirname, '../client/pages')));
 app.use(express.static(path.join(__dirname, '../client')));
 
 app.use(errorHandler);
