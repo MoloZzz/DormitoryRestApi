@@ -192,3 +192,40 @@ async function addWorker() {
     }
 }
 
+
+async function addVisitor() {
+    const name = document.getElementById('visitor_name').value;
+    const surname = document.getElementById('visitor_surname').value;
+    const passport = document.getElementById('visitor_passport').value;
+    const studentId = document.getElementById('visitor_studentId').value;
+
+    if(!name || !surname || !passport || !studentId){
+        alert("Не всі поля заповнено");
+        return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:9999/api/visitor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          surname,
+          passport,
+          studentId,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Не вдалося додати відвідувача');
+      }
+
+      alert('Відвідувача успішно додано!');
+      document.getElementById('addVisitorForm').reset();
+    } catch (error) {
+      console.error('Помилка додавання відвідувача:', error);
+      alert('Помилка додавання відвідувача:', error);
+    }
+  }

@@ -18,7 +18,7 @@
         <nav>
             <a href="index.html">Гуртожитки</a>
             <a href="students.html">Студенти</a>
-            <a href="admin.html">Адмін панель</a>
+            <a href="admin.html">Додавання</a>
             <a href="account.html" class="account">Акаунт</a>
         </nav>
     </header>
@@ -32,7 +32,6 @@
                 <ul class="navbar-nav">
                     <a class="nav-link StudentClass" href="#" onclick="ChangeContent('StudentDiv')">Студент</a>
                     <a class="nav-link DormitoryClass" href="#" onclick="ChangeContent('DormitoryDiv')">Гуртожиток</a>
-                    <a class="nav-link AccountClass" href="#" onclick="ChangeContent('AccountDiv')">Акаунт</a>
                     <a class="nav-link RoomClass" href="#" onclick="ChangeContent('RoomDiv')">Кімната</a>
                     <a class="nav-link VisitorClass" href="#" onclick="ChangeContent('VisitorDiv')">Відвідувач</a>
                     <a class="nav-link WorkerClass" href="#" onclick="ChangeContent('WorkerDiv')">Робітник</a>
@@ -94,11 +93,6 @@
             </div>
         </div>
 
-        <div id="AccountDiv" class="content-div">
-            <!-- Зміст для акаунтів -->
-            <h2>Акаунти</h2>
-        </div>
-
         <div id="RoomDiv" class="content-div">
             <div class="col-md-9">
                 <h2>Додати нову кімнату</h2>
@@ -122,8 +116,29 @@
         </div>
 
         <div id="VisitorDiv" class="content-div">
-            <!-- Зміст для відвідувачів -->
-            <h2>Відвідувачі</h2>
+            <div class="col-md-9">
+                <h2>Додати нового відвідувача</h2>
+                <form id="addVisitorForm">
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Ім'я:</label>
+                    <input type="text" class="form-control" id="visitor_name" name="visitor_name" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="surname" class="form-label">Прізвище:</label>
+                    <input type="text" class="form-control" id="visitor_surname" name="visitor_surname" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="passport" class="form-label">Паспорт:</label>
+                    <input type="text" class="form-control" id="visitor_passport" name="visitor_passport" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="studentId" class="form-label">ID студента до якого відвідувач:</label>
+                    <input type="text" class="form-control" id="visitor_studentId" name="visitor_studentId" required>
+                  </div>
+                  <button type="button" class="btn btn-primary" onclick="addVisitor()">Додати відвідувача</button>
+                </form>
+              </div>
+              
         </div>
 
         <div id="WorkerDiv" class="content-div">
