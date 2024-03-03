@@ -29,7 +29,7 @@ const Room = sequelize.define('room', {
     block_number: { type: DataTypes.INTEGER, unique: false, allowNull: false },
     capacity: { type: DataTypes.INTEGER, unique: false, allowNull: false },
     free_capacity: { type: DataTypes.INTEGER, unique: false, allowNull: false },
-    room_name: { type: DataTypes.STRING, unique: true, allowNull: true }
+    room_name: { type: DataTypes.STRING, unique: false, allowNull: true }
 });
 
 const Visitor = sequelize.define('visitor', {
