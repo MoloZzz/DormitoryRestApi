@@ -8,6 +8,7 @@ Express,
 Cors,
 Sequalize(PostregreSQL),
 Nodemon for dev,
+JsonWebTocken
 Dotenv,
 Path(node.js module).
 Front-end part:
