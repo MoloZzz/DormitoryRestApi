@@ -18,12 +18,15 @@ class WorkerController{
         }
     }
 
-    async getAll(req,res, next){
-        return res.json("Worker get all");
+    async getAll(req, res) {
+        const workers = await Worker.findAll();
+        return res.json(workers);
     }
 
-    async getOne(req,res, next){
-        return res.json("Worker get one");
+    async getOne(req, res) {
+        const { id } = req.params;
+        const worker = await Worker.findByPk(id);
+        return res.json(worker);
     }
 
 }

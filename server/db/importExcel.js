@@ -1,5 +1,5 @@
 const ExcelJS = require('exceljs');
-const {Dormitory, Room, Student, Account, Visitor, Worker, StudentVisitor, DormitoryWorker} = require('./models');
+const {Dormitory, Room, Student, Account, Visitor, Worker, StudentVisitor} = require('./models');
 
 async function importToExcel() {
   try {
@@ -9,6 +9,7 @@ async function importToExcel() {
     const rooms = await Room.findAll({ include: [Dormitory, Student] });
     const visitors = await Visitor.findAll({ include: [Student] });
     const workers = await Worker.findAll({ include: [Dormitory] });
+    const studentVisitor = await StudentVisitor.findAll();
 
     const workbook = new ExcelJS.Workbook();
     const studentWorksheet = workbook.addWorksheet('Students');
@@ -17,6 +18,7 @@ async function importToExcel() {
     const roomWorksheet = workbook.addWorksheet('Rooms');
     const visitorWorksheet = workbook.addWorksheet('Visitors');
     const workerWorksheet = workbook.addWorksheet('Workers');
+    const studentVisitorWorksheet = workbook.addWorksheet('StudentVisitor');
 
 
     studentWorksheet.columns = [
@@ -26,6 +28,7 @@ async function importToExcel() {
       { header: 'Dormitory Number', key: 'dormitory_num', width: 15 },
       { header: 'Role', key: 'role', width: 10 },
       { header: 'Contact Info', key: 'contact_info', width: 20 },
+      { header: 'RoomId', key: 'roomId', width: 20 },
     ];
 
     dormitoryWorksheet.columns = [
@@ -39,6 +42,7 @@ async function importToExcel() {
       { header: 'ID', key: 'id', width: 5 },
       { header: 'Balance', key: 'balance', width: 15 },
       { header: 'Last Update Date', key: 'last_update_date', width: 20 },
+      { header: 'StudentId', key: 'studentId', width: 20 },
     ];
 
     roomWorksheet.columns = [
@@ -47,6 +51,7 @@ async function importToExcel() {
       { header: 'Capacity', key: 'capacity', width: 10 },
       { header: 'Free Capacity', key: 'free_capacity', width: 15 },
       { header: 'Room Name', key: 'room_name', width: 20 },
+      { header: 'DormitoryId', key: 'dormitoryId', width: 20 },
     ];
 
     workerWorksheet.columns = [
@@ -55,6 +60,7 @@ async function importToExcel() {
       { header: 'Surname', key: 'surname', width: 20 },
       { header: 'Salary', key: 'salary', width: 15 },
       { header: 'Position', key: 'position', width: 20 },
+      { header: 'dormitoryId', key: 'dormitoryId', width: 20 },
     ];
 
     visitorWorksheet.columns = [
@@ -64,6 +70,13 @@ async function importToExcel() {
       { header: 'Passport', key: 'passport', width: 15 },
     ];   
 
+     studentVisitorWorksheet.columns = [
+       { header: 'ID', key: 'id', width: 5 },
+       { header: 'studentId', key: 'studentId', width: 20 },
+       { header: 'visitorId', key: 'visitorId', width: 20 },
+     ];   
+
+
       students.forEach(student => {
         studentWorksheet.addRow({
           id: student.id,
@@ -72,6 +85,7 @@ async function importToExcel() {
           dormitory_num: student.dormitory_num,
           role: student.role,
           contact_info: student.contact_info,
+          roomId: student.roomId,
         });
       });
 
@@ -89,6 +103,7 @@ async function importToExcel() {
           id: account.id,
           balance: account.balance,
           last_update_date: account.last_update_date,
+          studentId: account.studentId,
         });
       });
 
@@ -99,6 +114,7 @@ async function importToExcel() {
           capacity: room.capacity,
           free_capacity: room.free_capacity,
           room_name: room.room_name,
+          dormitoryId: room.dormitoryId,
         });
       });
 
@@ -118,8 +134,17 @@ async function importToExcel() {
           surname: worker.surname,
           salary: worker.salary,
           position: worker.position,
+          dormitoryId: worker.dormitoryId,
         });
       });
+
+       studentVisitor.forEach(student_visitor => {
+         studentVisitorWorksheet.addRow({
+           id: student_visitor.id,
+           studentId: student_visitor.studentId,
+           visitorId: student_visitor.visitorId,
+         });
+       });
 
     await workbook.xlsx.writeFile('./static/excel_table.xlsx');
     console.log('Excel файл збережений.');
