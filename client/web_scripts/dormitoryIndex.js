@@ -24,6 +24,7 @@ async function viewDormitory(dorm_number){
 
     const dorm = await dormResp.json();
     console.log(dorm);
+    alert(dorm.id);
 }
 
 

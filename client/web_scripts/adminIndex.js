@@ -28,9 +28,10 @@ async function addStudent() {
     try {
         const surname = document.getElementById('surname').value;
         const name = document.getElementById('name').value;
-        const dorm_number = document.getElementById('dorm_number').value;
+        //const dorm_number = document.getElementById('dorm_number').value;
+        const dorm_number = document.getElementById('student_dorm_number').value;
         const room_name = document.getElementById('room_name').value;
-        const contact_info = document.getElementById('contact_info').value;
+        const contact_info = document.getElementById('contact_info').value;   
         
         const roomResp = await fetch('http://localhost:9999/api/room/get-by-dorm-num-and-name/', {
             method: 'POST',
