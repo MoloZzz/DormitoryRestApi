@@ -75,9 +75,10 @@ async function setRoomByDormNumberIntoSelect(identificator,selected_dormitoryId)
         }
       });
 
-    //   if(currentOption == 0){
-    //     let newRoomOption = document.createElement("option");
-    //   }
+       if(currentOption == 0){
+         
+        alert('Жодної кімнати не додано до цього гуртожитку!');
+       }
 }
 
 async function getDormIdbyNumb(dorm_number){
