@@ -17,10 +17,10 @@
     <header>
         <h1 style="color: aliceblue">Студмістечко КНУ</h1>
         <nav>
-            <a href="index.html">Гуртожитки</a>
-            <a href="students.html">Студенти</a>
-            <a href="admin.html">Додавання</a>
-            <a href="account.html" class="account">Акаунт</a>
+            <a href="index.html" class="oval">Гуртожитки</a>
+            <a href="students.html" class="oval">Студенти</a>
+            <a href="admin.html" class="oval">Додавання</a>
+            <a href="account.html" class="account oval">Акаунт</a>
         </nav>
     </header>
 
@@ -31,11 +31,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <a class="nav-link StudentClass" href="#" onclick="ChangeContent('StudentDiv')">Студент</a>
-                    <a class="nav-link DormitoryClass" href="#" onclick="ChangeContent('DormitoryDiv')">Гуртожиток</a>
-                    <a class="nav-link RoomClass" href="#" onclick="ChangeContent('RoomDiv')">Кімната</a>
-                    <a class="nav-link VisitorClass" href="#" onclick="ChangeContent('VisitorDiv')">Відвідувач</a>
-                    <a class="nav-link WorkerClass" href="#" onclick="ChangeContent('WorkerDiv')">Робітник</a>
+                    <a class="nav-link StudentClass oval" href="#" onclick="ChangeContent('StudentDiv')">Студент</a>
+                    <a class="nav-link DormitoryClass oval" href="#" onclick="ChangeContent('DormitoryDiv')">Гуртожиток</a>
+                    <a class="nav-link RoomClass oval" href="#" onclick="ChangeContent('RoomDiv')">Кімната</a>
+                    <a class="nav-link VisitorClass oval" href="#" onclick="ChangeContent('VisitorDiv')">Відвідувач</a>
+                    <a class="nav-link WorkerClass oval" href="#" onclick="ChangeContent('WorkerDiv')">Робітник</a>
                 </ul>
                 
             </div>
@@ -57,13 +57,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="dorm_number" class="form-label">Гуртожиток:</label>
-                        <select name = "student_dorm_number" id = "student_dorm_number" class="form-control" onchange="setRoomNameSelect()" selected></select>
+                        <select name = "student_dorm_number" id = "student_dorm_number" class="form-control" onchange="setRoomNameSelect()"></select>
                         <!-- <input type="text" class="form-control" id="dorm_number" name="dorm_number" required> -->
                     </div>
                     <div class="mb-3">
                         <label for="room_name" class="form-label">Назва кімнати:</label>
                         <!-- <input type="text" class="form-control" id="room_name" name="room_name" required> -->
-                        <select name = "student_room_name" id = "student_room_name"  class="form-control" selected></select>
+                        <select name = "student_room_name" id = "student_room_name"  class="form-control" ></select>
                     </div>
                     <div class="mb-3">
                         <label for="contact_info" class="form-label">Контактна інформація:</label>
