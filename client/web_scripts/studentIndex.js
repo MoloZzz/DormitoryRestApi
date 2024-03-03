@@ -1,4 +1,5 @@
 
+
 async function fetchStudents() {
     try {
         const response = await fetch('http://localhost:9999/api/student');
