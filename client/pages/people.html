@@ -20,9 +20,17 @@
             <a href="account.html" class="account oval">Акаунт</a>
         </nav>
     </header>
+    
+    <div class="selector-wrapper" style="margin-top: 10px;">
+        <select style="text-align: center;" name="listSelector" id="listSelector" class="form-control" onchange="setRoomNameSelect()">
+            <option value="value1">Cтуденти</option>
+            <option value="value2">Працівники</option>
+        </select>
+    </div>
+    
+
 
     <div class="table-wrapper">
-        <h2>Список Студентів</h2>
         <table class="table table-bordered" id="studentsTable">
             <thead class="table-dark">
                 <tr>

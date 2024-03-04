@@ -12,7 +12,14 @@ async function fetchStudents() {
 
 
 async function updateTable() {
-    const students = await fetchStudents();
+    const urlParams = new URLSearchParams(window.location.search);
+    const dormNumber = urlParams.get('dorm-number');
+    
+    let students = await fetchStudents();
+    if(dormNumber !== null){
+        students = students.filter(student => student.dormitory_num == dormNumber);
+    }
+
     const tableBody = document.getElementById('studentsBody');
 
     tableBody.innerHTML = '';
@@ -20,8 +27,7 @@ async function updateTable() {
     students.forEach(student => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${student.name}</td>
-            <td>${student.surname}</td>
+            <td>${student.name.concat(' ', student.surname)}</td>
             <td>${student.dormitory_num}</td>`;
         tableBody.appendChild(row);
     });

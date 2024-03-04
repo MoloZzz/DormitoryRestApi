@@ -40,11 +40,9 @@ async function updateTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${dormitory.dorm_number}</td>
-            <td>${dormitory.name}</td>
-            <td>${dormitory.address}</td>
-            <td><button id="dormitoryButton${dormitory.dorm_number}" onclick="viewDormitory(${dormitory.dorm_number})"\
-            class="btn btn-secondary"">Переглянути</button></td>
-        `;
+            <td><a href="http://localhost:9999/people.html?dorm-number=${dormitory.dorm_number}" class="text-decoration-none">${dormitory.name}</a></td>
+            <td>${dormitory.address}</td>    
+`;
         tableBody.appendChild(row);
     });
 }
