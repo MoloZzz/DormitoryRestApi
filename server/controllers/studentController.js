@@ -36,14 +36,32 @@ class StudentController {
     }
 
     //В процесі
-    async change(req,res,next){
-        const { id, surname, name, dormitory_num, roomId, contact_info } = req.body;
-        
+    async  change(req, res, next) {
+        try {
+            const { id, fieldName, newValue } = req.body;
 
+            const existingStudent = await Student.findByPk(id);
+            if (!existingStudent) {
+                return next(ApiError.notFound('Студент не знайдений'));
+            }
+    
+
+            if (existingStudent[fieldName] == undefined) {
+                return next(ApiError.badRequest(`Поле '${fieldName}' не існує у записі студента`));
+            }
+    
+            existingStudent[fieldName] = newValue;
+            await existingStudent.save();
+    
+            return res.json(existingStudent);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
+
+
     async delete(req,res,next){
         try{
-            console.log('deleting...');
             const { id } = req.params;
             console.log(id);
             const student = await Student.findByPk(id);     
