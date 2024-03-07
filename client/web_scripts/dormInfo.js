@@ -97,7 +97,6 @@ function setTable(selectedOption) {
 
 async function updateStudentTable(dormNumber){
     let students = await fetchStudents();
-    console.log(students);
     
     if(dormNumber !== null){
         students = students.filter(student => student.dormitory_num == dormNumber);
@@ -117,12 +116,7 @@ async function updateStudentTable(dormNumber){
 }
 
 async function updateWorkerTable(dormNumber){
-    let workers = await fetchWorkers();
-    console.log(workers);
-    
-    if(dormNumber !== null){
-        // workers = workers.filter(worker => worker.dormitory_num == dormNumber);
-    }
+    let workers = await fetchWorkers(dormNumber);
 
     const tableBody = document.getElementById('workersBody');
 
@@ -147,7 +141,16 @@ async function updateTables() {
 
 async function fetchWorkers(dorm_number) {
     try {
-        const response = await fetch('http://localhost:9999/api/worker');
+        const response = await fetch('http://localhost:9999/api/worker/get-all-by-dorm-number', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dorm_number
+            }),
+        });
+
         const workers = await response.json();
 
         if(!response){
