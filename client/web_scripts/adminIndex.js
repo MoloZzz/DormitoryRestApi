@@ -3,6 +3,11 @@ async function addDormitory() {
     const dorm_number = document.getElementById('dormNumber').value;
     const address = document.getElementById('address').value;
 
+    if (!name || !dorm_number || !address) {
+        alert("Будь ласка, заповніть всі поля.");
+        return;
+    }
+
     try {
         const response = await fetch('http://localhost:9999/api/dormitory', {
             method: 'POST',
@@ -28,10 +33,14 @@ async function addStudent() {
     try {
         const surname = document.getElementById('surname').value;
         const name = document.getElementById('name').value;
-        //const dorm_number = document.getElementById('dorm_number').value;
         const dorm_number = document.getElementById('student_dorm_number').value;
         const room_name = document.getElementById('student_room_name').value;
-        const contact_info = document.getElementById('contact_info').value;   
+        const contact_info = document.getElementById('contact_info').value;
+
+        if (!surname || !name || !dorm_number || !room_name) {
+            alert("Будь ласка, заповніть всі обовʼязкові поля.");
+            return;
+        }
         
         const roomResp = await fetch('http://localhost:9999/api/room/get-by-dorm-num-and-name/', {
             method: 'POST',
@@ -89,6 +98,16 @@ async function addRoom() {
         const room_name = block_number + "/" + capacity;
         const dorm_number = document.getElementById('room_dorm_number').value;
 
+        if (!block_number || !capacity || !room_name || !dorm_number) {
+            alert("Будь ласка, заповніть всі поля.");
+            return;
+        }
+
+        if(dorm_number === ""){
+            alert("Оберіть гуртожиток");
+            return;
+        }
+
         const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
             method: 'POST',
             headers: {
@@ -144,6 +163,11 @@ async function addWorker() {
         const salary = document.getElementById('salary').value;
         const position = document.getElementById('position').value;
         const dormitory_num = document.getElementById('worker_dorm_number').value;
+
+        if (!name || !surname || !salary || !position || !dormitory_num) {
+            alert("Будь ласка, заповніть всі поля.");
+            return;
+        }
 
         const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
             method: 'POST',
@@ -201,7 +225,7 @@ async function addVisitor() {
     const studentId = document.getElementById('visitor_studentId').value;
 
     if(!name || !surname || !passport || !studentId){
-        alert("Не всі поля заповнено");
+        alert("Будь ласка, заповніть всі поля.");
         return;
     }
 
