@@ -8,6 +8,12 @@ class RoomController {
         try {
             const { block_number, capacity, free_capacity, dormitoryId } = req.body;
             const room_name = block_number + "/" + capacity;
+            const roomWithEqualsName = await Room.findOne({where: {
+                room_name: room_name,
+                dormitoryId: dormitoryId}});
+            if(roomWithEqualsName){
+                next(ApiError.badRequest("Кімната з таким іменем вже існує"));
+            }
             const room = await Room.create({ block_number, capacity, free_capacity, room_name, dormitoryId });
             return res.json(room);
         } catch (e) {
