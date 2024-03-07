@@ -30,7 +30,7 @@ async function addStudent() {
         const name = document.getElementById('name').value;
         //const dorm_number = document.getElementById('dorm_number').value;
         const dorm_number = document.getElementById('student_dorm_number').value;
-        const room_name = document.getElementById('room_name').value;
+        const room_name = document.getElementById('student_room_name').value;
         const contact_info = document.getElementById('contact_info').value;   
         
         const roomResp = await fetch('http://localhost:9999/api/room/get-by-dorm-num-and-name/', {
@@ -143,7 +143,7 @@ async function addWorker() {
         const surname = document.getElementById('WorkerSurname').value;
         const salary = document.getElementById('salary').value;
         const position = document.getElementById('position').value;
-        const dormitory_num = document.getElementById('dormitory_num').value;
+        const dormitory_num = document.getElementById('worker_dorm_number').value;
 
         const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
             method: 'POST',

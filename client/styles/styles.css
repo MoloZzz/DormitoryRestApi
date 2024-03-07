@@ -93,3 +93,7 @@ input:invalid {
 #WorkerDiv {
     display: none;
 }
+
+.oval{
+    border-radius: 5px;
+}
