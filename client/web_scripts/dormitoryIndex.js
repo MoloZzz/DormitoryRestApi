@@ -40,7 +40,7 @@ async function updateTable() {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${dormitory.dorm_number}</td>
-            <td><a href="http://localhost:9999/people.html?dorm-number=${dormitory.dorm_number}" class="text-decoration-none">${dormitory.name}</a></td>
+            <td><a href="http://localhost:9999/dormInfo.html?dorm-number=${dormitory.dorm_number}" class="text-decoration-none">${dormitory.name}</a></td>
             <td>${dormitory.address}</td>    
 `;
         tableBody.appendChild(row);
