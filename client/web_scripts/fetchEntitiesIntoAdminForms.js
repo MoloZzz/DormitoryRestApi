@@ -97,12 +97,11 @@ async function setRoomNameSelect() {
     }
     const addStudent_dormitory_id = await getDormIdbyNumb(selectedOption);
 
-    const options = rooms.filter(room => room.dormitoryId == addStudent_dormitory_id)
+    const options = rooms.filter(room => room.dormitoryId == addStudent_dormitory_id && room.free_capacity > 0)
         .map(room => ({
             value: room.room_name,
             label: room.room_name
         }));
-
     
     if(options.length > 0){
         choices.setChoices(options, 'value', 'label', true);
