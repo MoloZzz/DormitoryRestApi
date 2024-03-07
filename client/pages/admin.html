@@ -9,6 +9,10 @@
     <script src="../web_scripts/adminIndex.js"></script>
     <script src="../web_scripts/menu_admin.js"></script>
     <script src="../web_scripts/fetchEntitiesIntoAdminForms.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css">
+    
     <link rel="icon" href="../styles/icon.png" type="image/png">
 
     <title>Студмісто</title>
@@ -57,12 +61,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="dorm_number" class="form-label">Гуртожиток:</label>
-                        <select name = "student_dorm_number" id = "student_dorm_number" class="form-control" onchange="setRoomNameSelect()"></select>
-                        <!-- <input type="text" class="form-control" id="dorm_number" name="dorm_number" required> -->
+                        <select name = "student_dorm_number" id = "student_dorm_number" class="form-control" onchange="setRoomNameSelect()">
+                            <option value="" selected></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="room_name" class="form-label">Назва кімнати:</label>
-                        <!-- <input type="text" class="form-control" id="room_name" name="room_name" required> -->
                         <select name = "student_room_name" id = "student_room_name"  class="form-control" ></select>
                     </div>
                     <div class="mb-3">
@@ -102,8 +106,9 @@
                 <form id="addRoomForm">
                     <div class="mb-3">
                         <label for="room_dorm_number" class="form-label">Гуртожиток:</label>
-                        <select name = "room_dorm_number" id = "room_dorm_number" selected class="form-control"></select>
-                        <!-- <input type="text" class="form-control" id="room_dorm_number" name="room_dorm_number" required> -->
+                        <select name = "room_dorm_number" id = "room_dorm_number" class="form-control">
+                            <option value="" selected></option>
+                        </select>
                     </div>
                     <div class="mb-3">
                         <label for="block_number" class="form-label">Номер блоку:</label>
@@ -167,8 +172,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="dormitory_num" class="form-label">Гуртожиток:</label>
-                        <select name = "worker_dorm_number" id = "worker_dorm_number" selected class="form-control"></select>
-                        <!-- <input type="number" class="form-control" id="dormitory_num" name="dormitory_num" required> -->
+                        <select name = "worker_dorm_number" id = "worker_dorm_number" class="form-control">
+                            <option value="" selected></option>
+                        </select>
                     </div>
                     <button type="button" class="btn btn-primary" onclick="addWorker()">Додати працівника</button>
                 </form>
