@@ -109,7 +109,7 @@ async function updateStudentTable(dormNumber){
     students.forEach(student => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${student.name.concat(' ', student.surname)}</td>
+            <td><a href="http://localhost:9999/studentInfo.html?studentId=${student.id}" class="text-decoration-none">${student.name.concat(' ', student.surname)}</td>
             <td>${student.dormitory_num}</td>`;
         tableBody.appendChild(row);
     });
