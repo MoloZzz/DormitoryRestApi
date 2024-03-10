@@ -1,6 +1,3 @@
-const editButton = document.getElementById("editButton");
-const deleteButton = document.getElementById("deleteButton");
-
 async function update(){
     await updateDormInfo(); 
     

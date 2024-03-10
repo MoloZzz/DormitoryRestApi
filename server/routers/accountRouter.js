@@ -10,5 +10,6 @@ router.get('/:id', AccountController.getOne);
 router.post('/importExcel',AccountController.importToExcel);
 
 router.put('/:id', AccountController.update);
+router.put('/update-by-student-id/:studentId', AccountController.updateByStudentId);
 
 module.exports = router;

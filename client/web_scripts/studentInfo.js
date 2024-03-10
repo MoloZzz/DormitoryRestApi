@@ -1,18 +1,24 @@
 let studentId;
 
-async function update(){
+async function update() {
     const urlParams = new URLSearchParams(window.location.search);
     studentId = urlParams.get('studentId');
 
-    if(!studentId){
+    if (!studentId) {
         alert("");
         return;
     }
 
     await updateStudentInfo();
+    await updateVisitorsTable();
 }
 
-async function updateStudentInfo(){
+async function fetchVisitors(){
+    const visitorsResp = await fetch(`http://localhost:9999/api/visitor/get-all-by-student-id/${studentId}`);
+    return await visitorsResp.json();
+}
+
+async function updateStudentInfo() {
     const studentName = document.getElementById("studentName");
     const studentSurname = document.getElementById("studentSurname");
     const studentDormNumber = document.getElementById("studentDormNumber");
@@ -26,63 +32,103 @@ async function updateStudentInfo(){
     }
 
     try {
-        const studentResp = await fetch(`http://localhost:9999/api/student/${studentId}`)
-        const student = await studentResp.json();
-        console.log(student);
-        
-        studentName.textContent = student.name;
-        studentSurname.textContent = student.surname;
-        studentDormNumber.textContent = student.dormitory_num;
-        studentRoomName.textContent = await getRoomName(student.roomId);
-        studentContactInfo.textContent = student.contact_info;
-        studentBalance.textContent = await getBalance(studentId);;
+        const studentInfoResp = await fetch(`http://localhost:9999/api/student/info/${studentId}`)
+        const studentInfo = await studentInfoResp.json();
+
+        studentName.textContent = studentInfo.name;
+        studentSurname.textContent = studentInfo.surname;
+        studentDormNumber.textContent = studentInfo.dormitory_num;
+        studentRoomName.textContent = studentInfo.room.room_name;
+        studentContactInfo.textContent = studentInfo.contact_info;
+        studentBalance.textContent = studentInfo.account.balance;
     } catch (error) {
         console.error("Error fetching dormitory information:", error);
     }
 }
 
-async function getBalance(studentId){
-    const accountResp = await fetch(`http://localhost:9999/api/account/${studentId}`);
-    
-    if(!accountResp.ok){
-        alert("Помилка з отриманням даних рахунку");
-        throw new Error("помилка з get account");   
+async function updateVisitorsTable(){
+    const visitors = await fetchVisitors();
+    if(!visitors){
+        alert("Помилка з отриманням гостей")
+        return;
     }
 
-    const account = await accountResp.json();
-    return account.balance;    
+    const tableBody = document.getElementById('visitorsBody');
+
+    tableBody.innerHTML = '';
+
+    visitors.forEach(visitor => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${visitor.name}</td>
+            <td>${visitor.surname}</td>
+            <td>${visitor.passport}</td>`;
+        tableBody.appendChild(row);
+    });
 }
 
-async function getRoomName(roomId){
-    const roomResp = await fetch(`http://localhost:9999/api/room/${roomId}`);
-    const room = await roomResp.json();
+async function editStudent() {
+    const fieldNameInput = document.getElementById('fieldName');
+    const newValueInput = document.getElementById('newValue');
 
-    return room.room_name;
+    if (!studentId) {
+        alert("Помилка. Потрібен id студента");
+        return;
+    }
+
+    const fieldName = fieldNameInput.value;
+    const newValue = newValueInput.value;
+
+    const data = {
+        id: studentId,
+        fieldName,
+        newValue,
+    };
+
+    try {
+        const response = await fetch('/api/student/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        console.log(response);
+
+        if (response.ok) {
+            const updatedStudent = await response.json();
+            console.log('Студент успішно оновлено:', updatedStudent);
+            await toggleChengeStudentForm();
+            // there is better way
+            await updateStudentInfo();
+        } else {
+            const error = await response.json();
+            console.error('Помилка:', error);
+        }
+    } catch (e) {
+        console.error('Непередбачена помилка:', e);
+    }
+
 }
 
-async function editStudent(){
-
-}
-
-async function changeBalance(){
+async function changeBalance() {
     const newBalanceInput = document.getElementById('newBalance');
     const newBalance = parseFloat(newBalanceInput.value);
 
     if (!isNaN(newBalance)) {
-        const balanceChangeResp = await fetch(`http://localhost:9999/api/account/${studentId}`, {
+
+        const balanceChangeResp = await fetch(`http://localhost:9999/api/account/update-by-student-id/${studentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                studentId,
                 balance: newBalance
             }),
         });
 
-        console.log(balanceChangeResp.json());
-
-        if(!balanceChangeResp.ok){
+        if (!balanceChangeResp.ok) {
             alert("Виникла помилка зі зміною балансу");
             throw new Error("помилка зі зміною");
         }
@@ -92,6 +138,7 @@ async function changeBalance(){
         studentBalance.textContent = newBalance;
     } else {
         alert('Введіть коректне значення для нового балансу.');
+        return;
     }
 
     newBalanceInput.value = '';
@@ -99,23 +146,29 @@ async function changeBalance(){
 }
 
 
-async function toggleChangeBalanceForm(){
+async function toggleChangeBalanceForm() {
     const form = document.getElementById("balanceForm");
     form.style.display = (form.style.display === 'none') ? 'block' : 'none';
 }
 
-async function deleteStudent(){
+async function toggleChengeStudentForm() {
+    const form = document.getElementById("changeStudentForm");
+    form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+}
+
+async function deleteStudent() {
     const response = await fetch(`http://localhost:9999/api/student/${studentId}`, {
         method: 'DELETE'
     });
 
-    if(!response.ok){
+    if (!response.ok) {
         alert("Помилка з видаленням студента");
         throw new Error("помилка з видаленням студента");
     }
 
     alert("Студента успішно видалено");
 
+    window.location.href = "/";
 };
 
 window.onload = update;

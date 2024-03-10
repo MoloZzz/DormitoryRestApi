@@ -32,19 +32,19 @@ class WorkerController {
     async getAllByDormNumber(req, res, next) {
         const { dorm_number } = req.body;
 
-        if(!dorm_number){
+        if (!dorm_number) {
             return next(ApiError.badRequest("В запиті немає номеру гуртожитку"));
         }
 
-        const dorm = await Dormitory.findOne({where:{dorm_number}})
+        const dorm = await Dormitory.findOne({ where: { dorm_number } })
 
-        if(!dorm){
+        if (!dorm) {
             return next(ApiError.badRequest('Гуртожиток не знайдено'));
         }
 
         const dormitoryId = dorm.id;
 
-        const workers = await Worker.findAll({where:{dormitoryId}});
+        const workers = await Worker.findAll({ where: { dormitoryId } });
         return res.json(workers);
     }
 

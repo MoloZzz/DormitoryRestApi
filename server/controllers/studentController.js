@@ -36,7 +36,7 @@ class StudentController {
     }
 
     //В процесі
-    async  change(req, res, next) {
+    async change(req, res, next) {
         try {
             const { id, fieldName, newValue } = req.body;
 
@@ -44,15 +44,15 @@ class StudentController {
             if (!existingStudent) {
                 return next(ApiError.notFound('Студент не знайдений'));
             }
-    
+
 
             if (existingStudent[fieldName] == undefined) {
                 return next(ApiError.badRequest(`Поле '${fieldName}' не існує у записі студента`));
             }
-    
+
             existingStudent[fieldName] = newValue;
             await existingStudent.save();
-    
+
             return res.json(existingStudent);
         } catch (e) {
             next(ApiError.badRequest(e.message));
@@ -60,17 +60,16 @@ class StudentController {
     }
 
 
-    async delete(req,res,next){
-        try{
+    async delete(req, res, next) {
+        try {
             const { id } = req.params;
-            console.log(id);
-            const student = await Student.findByPk(id);     
-            
+            const student = await Student.findByPk(id);
+
             if (!student) {
                 return res.status(404).json({ error: 'Студент не знайдений' });
             }
 
-            const account = await Account.findOne({where:{studentId:student.id}});
+            const account = await Account.findOne({ where: { studentId: student.id } });
 
             if (!account) {
                 return res.status(404).json({ error: 'Акаунт студента не знайдений' });
@@ -78,16 +77,32 @@ class StudentController {
 
             const room = await Room.findByPk(student.roomId);
             room.free_capacity += 1;
-            
+
             await room.save();
             await account.destroy();
             await student.destroy();
 
             return res.json(`Student: id ${id},${student.name} ${student.surname} deleted, account ${account.id} deleted`);
-        }catch(e){
+        } catch (e) {
             next(ApiError.badRequest(e.message));
         }
-        
+    }
+
+    async getStudentInfo(req, res, next) {
+        try {
+            const { id } = req.params;
+            const studentInfo = await Student.findOne({
+                where: { id },
+                include: [
+                    { model: Account, attributes: ['balance', 'last_update_date'] },
+                    { model: Room, attributes: ['room_name'] },
+                ]
+            });
+
+            return res.json(studentInfo);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
     }
 }
 
