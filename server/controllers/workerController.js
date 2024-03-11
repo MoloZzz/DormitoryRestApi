@@ -48,6 +48,29 @@ class WorkerController {
         return res.json(workers);
     }
 
+    async change(req, res, next) {
+        try {
+            const { id, fieldName, newValue } = req.body;
+
+            const existingWorker = await Worker.findByPk(id);
+            if (!existingWorker) {
+                return next(ApiError.notFound('Працівник не знайдений'));
+            }
+
+
+            if (existingWorker[fieldName] == undefined) {
+                return next(ApiError.badRequest(`Поле '${fieldName}' не існує у записі працівника`));
+            }
+
+            existingWorker[fieldName] = newValue;
+            await existingWorker.save();
+
+            return res.json(existingWorker);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
 }
 
 module.exports = new WorkerController();

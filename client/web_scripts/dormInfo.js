@@ -122,7 +122,7 @@ async function updateWorkerTable(dormNumber){
     workers.forEach(worker => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${worker.name.concat(' ', worker.surname)}</td>
+            <td><a href="http://localhost:9999/workerInfo.html?workerId=${worker.id}" class="text-decoration-none">${worker.name.concat(' ', worker.surname)}</td>
             <td>${worker.salary}</td>`;
         tableBody.appendChild(row);
     });
