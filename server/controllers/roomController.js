@@ -12,7 +12,7 @@ class RoomController {
                 room_name: room_name,
                 dormitoryId: dormitoryId}});
             if(roomWithEqualsName){
-                next(ApiError.badRequest("Кімната з таким іменем вже існує"));
+                return next(ApiError.badRequest("Кімната з таким іменем вже існує"));
             }
             const room = await Room.create({ block_number, capacity, free_capacity, room_name, dormitoryId });
             return res.json(room);

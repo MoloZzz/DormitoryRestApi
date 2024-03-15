@@ -51,6 +51,24 @@ class AccountController {
         }
     }
 
+    async updateByStudentId(req, res, next) {
+        try {
+            const { studentId } = req.params;
+            const { balance } = req.body;
+            const account = await Account.findOne({where:{studentId}});
+
+            if (!account) {
+                return next(ApiError.badRequest('Рахунок не знайдено'));
+            }
+
+            await account.update({ balance, last_update_date: new Date() });
+
+            return res.json(account);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
+
     async importToExcel(req,res, next){
         try{
             importExcel();

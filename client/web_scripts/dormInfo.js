@@ -1,9 +1,6 @@
-const editButton = document.getElementById("editButton");
-const deleteButton = document.getElementById("deleteButton");
+async function update() {
+    await updateDormInfo();
 
-async function update(){
-    await updateDormInfo(); 
-    
     await updateTables();
 }
 
@@ -95,13 +92,8 @@ function setTable(selectedOption) {
     toggleTables(selectedOption);
 }
 
-async function updateStudentTable(dormNumber){
-    let students = await fetchStudents();
-    console.log(students);
-    
-    if(dormNumber !== null){
-        students = students.filter(student => student.dormitory_num == dormNumber);
-    }
+async function updateStudentTable(dormNumber) {
+    let students = await fetchStudents(dormNumber);
 
     const tableBody = document.getElementById('studentsBody');
 
@@ -110,19 +102,14 @@ async function updateStudentTable(dormNumber){
     students.forEach(student => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${student.name.concat(' ', student.surname)}</td>
-            <td>${student.dormitory_num}</td>`;
+            <td><a href="http://localhost:9999/studentInfo.html?studentId=${student.id}" class="text-decoration-none">${student.name.concat(' ', student.surname)}</td>
+            <td>${student.room.room_name}</td>`;
         tableBody.appendChild(row);
     });
 }
 
-async function updateWorkerTable(dormNumber){
-    let workers = await fetchWorkers();
-    console.log(workers);
-    
-    if(dormNumber !== null){
-        // workers = workers.filter(worker => worker.dormitory_num == dormNumber);
-    }
+async function updateWorkerTable(dormNumber) {
+    let workers = await fetchWorkers(dormNumber);
 
     const tableBody = document.getElementById('workersBody');
 
@@ -131,7 +118,7 @@ async function updateWorkerTable(dormNumber){
     workers.forEach(worker => {
         const row = document.createElement('tr');
         row.innerHTML = `
-            <td>${worker.name.concat(' ', worker.surname)}</td>
+            <td><a href="http://localhost:9999/workerInfo.html?workerId=${worker.id}" class="text-decoration-none">${worker.name.concat(' ', worker.surname)}</td>
             <td>${worker.salary}</td>`;
         tableBody.appendChild(row);
     });
@@ -140,17 +127,38 @@ async function updateWorkerTable(dormNumber){
 async function updateTables() {
     const urlParams = new URLSearchParams(window.location.search);
     const dormNumber = urlParams.get('dorm-number');
-    
+
     await updateStudentTable(dormNumber);
     await updateWorkerTable(dormNumber);
 }
 
+async function fetchStudents(dormNumber) {
+    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const students = await response.json();
+    console.log(students);
+    return students;
+}
+
 async function fetchWorkers(dorm_number) {
     try {
-        const response = await fetch('http://localhost:9999/api/worker');
+        const response = await fetch('http://localhost:9999/api/worker/get-all-by-dorm-number', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                dorm_number
+            }),
+        });
+
         const workers = await response.json();
 
-        if(!response){
+        if (!response) {
             alert("Такого гуртожитку не існує!")
             return;
         }
