@@ -1,10 +1,23 @@
 async function addDormitory() {
     const name = document.getElementById('dorm_name').value;
     const dorm_number = document.getElementById('dormNumber').value;
+
+    // no validation
     const address = document.getElementById('address').value;
 
     if (!name || !dorm_number || !address) {
         alert("Будь ласка, заповніть всі поля.");
+        return;
+    }
+
+    const dorm_name_regex = /^[а-яА-Я0-9\s.'-]+$/;
+    if (!dorm_name_regex.test(name)) {
+        alert('Ім\'я гуртожитку має містити лише букви, цифри, пробіли та деякі спеціальні символи.');
+        return;
+    }
+
+    if (!isValidPositiveInteger(dorm_number)) {
+        alert("Номер гуртожитку має бути цілим додатнім числом");
         return;
     }
 
@@ -35,13 +48,25 @@ async function addStudent() {
         const name = document.getElementById('name').value;
         const dorm_number = document.getElementById('student_dorm_number').value;
         const room_name = document.getElementById('student_room_name').value;
+
+        // no validation
         const contact_info = document.getElementById('contact_info').value;
 
         if (!surname || !name || !dorm_number || !room_name) {
             alert("Будь ласка, заповніть всі обовʼязкові поля.");
             return;
         }
-        
+
+        if (!isValidUkrSymb(surname)) {
+            alert('Прізвище має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+            return;
+        }
+
+        if (!isValidUkrSymb(name)) {
+            alert('Ім\'я має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+            return;
+        }
+
         const roomResp = await fetch('http://localhost:9999/api/room/get-by-dorm-num-and-name/', {
             method: 'POST',
             headers: {
@@ -52,8 +77,8 @@ async function addStudent() {
                 dorm_number
             }),
         });
-        
-        if(!roomResp.ok){
+
+        if (!roomResp.ok) {
             room_name.value = '';
             dorm_number.value = '';
             alert("Такої кімнати або гуртожитку не існує!")
@@ -103,8 +128,18 @@ async function addRoom() {
             return;
         }
 
-        if(dorm_number === ""){
+        if (dorm_number === "") {
             alert("Оберіть гуртожиток");
+            return;
+        }
+
+        if (!isValidPositiveInteger(block_number)) {
+            alert("Номер блоку має бути цілим додатнім числом");
+            return;
+        }
+
+        if (!isValidPositiveInteger(capacity)) {
+            alert("Кількість місць має бути цілим додатнім числом");
             return;
         }
 
@@ -118,7 +153,7 @@ async function addRoom() {
             }),
         });
 
-        if(!dormResp.ok){
+        if (!dormResp.ok) {
             dorm_number.value = '';
             alert("Такого гуртожитку не існує!")
             return;
@@ -169,6 +204,26 @@ async function addWorker() {
             return;
         }
 
+        if (!isValidUkrSymb(surname)) {
+            alert('Прізвище має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+            return;
+        }
+
+        if (!isValidUkrSymb(name)) {
+            alert('Ім\'я має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+            return;
+        }
+
+        if (!isValidPositiveDecimal(salary)) {
+            alert("Заробітна плата має бути додатнім числом");
+            return;
+        }
+
+        if (!isValidUkrSymb(position)) {
+            alert('Посада містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+            return;
+        }
+
         const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
             method: 'POST',
             headers: {
@@ -179,7 +234,7 @@ async function addWorker() {
             }),
         });
 
-        if(!dormResp.ok){
+        if (!dormResp.ok) {
             dormitory_num.value = '';
             alert("Такого гуртожитку не існує!")
             return;
@@ -224,33 +279,48 @@ async function addVisitor() {
     const passport = document.getElementById('visitor_passport').value;
     const studentId = document.getElementById('visitor_studentId').value;
 
-    if(!name || !surname || !passport || !studentId){
+    if (!name || !surname || !passport || !studentId) {
         alert("Будь ласка, заповніть всі поля.");
         return;
     }
 
-    try {
-      const response = await fetch('http://localhost:9999/api/visitor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name,
-          surname,
-          passport,
-          studentId,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Не вдалося додати відвідувача');
-      }
-
-      alert('Відвідувача успішно додано!');
-      document.getElementById('addVisitorForm').reset();
-    } catch (error) {
-      console.error('Помилка додавання відвідувача:', error);
-      alert('Помилка додавання відвідувача:', error);
+    if (!isValidUkrSymb(surname)) {
+        alert('Прізвище має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+        return;
     }
-  }
+
+    if (!isValidUkrSymb(name)) {
+        alert('Ім\'я має містити лише букви кирилиці, дефіси, апострофи та пробіли.');
+        return;
+    }
+
+    if (!isValidPassportNumber(passport)) {
+        alert("Паспорт має складатися з номера (9 цифр), або серії (дві літери) і номера (6 цифр)");
+        return;
+    }
+    
+    try {
+        const response = await fetch('http://localhost:9999/api/visitor', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name,
+                surname,
+                passport,
+                studentId,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Не вдалося додати відвідувача');
+        }
+
+        alert('Відвідувача успішно додано!');
+        document.getElementById('addVisitorForm').reset();
+    } catch (error) {
+        console.error('Помилка додавання відвідувача:', error);
+        alert('Помилка додавання відвідувача:', error);
+    }
+}

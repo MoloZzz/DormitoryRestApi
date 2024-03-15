@@ -22,7 +22,7 @@ async function updateWorkerInfo() {
     const surname = document.getElementById("surname");
     const salary = document.getElementById("salary");
     const position = document.getElementById("position");
-    
+
     if (!workerId) {
         alert("Помилка. Потрібен id студента");
         return;
@@ -35,7 +35,7 @@ async function updateWorkerInfo() {
         name.textContent = worker.name;
         surname.textContent = worker.surname;
         salary.textContent = worker.salary;
-        position.textContent = position.salary;
+        position.textContent = worker.position;
     } catch (error) {
         console.error("Error fetching worker information:", error);
     }
@@ -52,6 +52,19 @@ async function editWorker() {
 
     const fieldName = fieldNameInput.value;
     const newValue = newValueInput.value;
+
+    if (fieldName === 'salary') {
+        if(!isValidPositiveDecimal(newValue)){
+            alert("Нова значення має бути позитивним числом");
+            return;
+        }
+    } else {
+        if (!isValidUkrSymb(newValue)){
+            alert("Нова значення має складатися з українських літар і спец символів");
+            return;
+        }
+    }
+
 
     const data = {
         id: workerId,
@@ -81,7 +94,6 @@ async function editWorker() {
     } catch (e) {
         console.error('Непередбачена помилка:', e);
     }
-
 }
 
 window.onload = update;

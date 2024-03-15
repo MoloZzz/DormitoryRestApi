@@ -13,7 +13,7 @@ async function update() {
     await updateVisitorsTable();
 }
 
-async function fetchVisitors(){
+async function fetchVisitors() {
     const visitorsResp = await fetch(`http://localhost:9999/api/visitor/get-all-by-student-id/${studentId}`);
     return await visitorsResp.json();
 }
@@ -46,9 +46,9 @@ async function updateStudentInfo() {
     }
 }
 
-async function updateVisitorsTable(){
+async function updateVisitorsTable() {
     const visitors = await fetchVisitors();
-    if(!visitors){
+    if (!visitors) {
         alert("Помилка з отриманням гостей")
         return;
     }
@@ -79,6 +79,12 @@ async function editStudent() {
     const fieldName = fieldNameInput.value;
     const newValue = newValueInput.value;
 
+    // contact_info without validation
+    if (fieldName !== 'contact_info' && !isValidUkrSymb(newValue)) {
+        alert("Нова значення має складатися з українських літар і спец символів");
+        return;
+    }
+
     const data = {
         id: studentId,
         fieldName,
@@ -98,7 +104,7 @@ async function editStudent() {
 
         if (response.ok) {
             const updatedStudent = await response.json();
-            console.log('Студент успішно оновлено:', updatedStudent);
+            alert("Дані успішно змінені");
             await toggleChengeStudentForm();
             // there is better way
             await updateStudentInfo();
@@ -109,37 +115,36 @@ async function editStudent() {
     } catch (e) {
         console.error('Непередбачена помилка:', e);
     }
-
 }
 
 async function changeBalance() {
     const newBalanceInput = document.getElementById('newBalance');
-    const newBalance = parseFloat(newBalanceInput.value);
 
-    if (!isNaN(newBalance)) {
-
-        const balanceChangeResp = await fetch(`http://localhost:9999/api/account/update-by-student-id/${studentId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                balance: newBalance
-            }),
-        });
-
-        if (!balanceChangeResp.ok) {
-            alert("Виникла помилка зі зміною балансу");
-            throw new Error("помилка зі зміною");
-        }
-
-        alert("Дані успішно змінені");
-        const studentBalance = document.getElementById('studentBalance');
-        studentBalance.textContent = newBalance;
-    } else {
+    if (!isValidDecimal(newBalanceInput.value)) {
         alert('Введіть коректне значення для нового балансу.');
         return;
     }
+
+    const newBalance = newBalanceInput.value;
+
+    const balanceChangeResp = await fetch(`http://localhost:9999/api/account/update-by-student-id/${studentId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            balance: newBalance
+        }),
+    });
+
+    if (!balanceChangeResp.ok) {
+        alert("Виникла помилка зі зміною балансу");
+        throw new Error("помилка зі зміною");
+    }
+
+    alert("Дані успішно змінені");
+    const studentBalance = document.getElementById('studentBalance');
+    studentBalance.textContent = newBalance;
 
     newBalanceInput.value = '';
     await toggleChangeBalanceForm();
