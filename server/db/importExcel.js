@@ -1,5 +1,5 @@
 const ExcelJS = require('exceljs');
-const {Dormitory, Room, Student, Account, Visitor, Worker, StudentVisitor} = require('./models');
+const { Dormitory, Room, Student, Account, Visitor, Worker, StudentVisitor } = require('./models');
 
 async function importToExcel() {
   try {
@@ -68,87 +68,85 @@ async function importToExcel() {
       { header: 'Name', key: 'name', width: 20 },
       { header: 'Surname', key: 'surname', width: 20 },
       { header: 'Passport', key: 'passport', width: 15 },
-    ];   
+    ];
 
-     studentVisitorWorksheet.columns = [
-       { header: 'ID', key: 'id', width: 5 },
-       { header: 'studentId', key: 'studentId', width: 20 },
-       { header: 'visitorId', key: 'visitorId', width: 20 },
-     ];   
+    studentVisitorWorksheet.columns = [
+      { header: 'ID', key: 'id', width: 5 },
+      { header: 'studentId', key: 'studentId', width: 20 },
+      { header: 'visitorId', key: 'visitorId', width: 20 },
+    ];
 
 
-      students.forEach(student => {
-        studentWorksheet.addRow({
-          id: student.id,
-          surname: student.surname,
-          name: student.name,
-          dormitory_num: student.dormitory_num,
-          role: student.role,
-          contact_info: student.contact_info,
-          roomId: student.roomId,
-        });
+    students.forEach(student => {
+      studentWorksheet.addRow({
+        id: student.id,
+        surname: student.surname,
+        name: student.name,
+        dormitory_num: student.dormitory_num,
+        role: student.role,
+        contact_info: student.contact_info,
+        roomId: student.roomId,
       });
+    });
 
-      dormitories.forEach(dormitory => {
-        dormitoryWorksheet.addRow({
-          id: dormitory.id,
-          name: dormitory.name,
-          dorm_number: dormitory.dorm_number,
-          address: dormitory.address,
-        });
+    dormitories.forEach(dormitory => {
+      dormitoryWorksheet.addRow({
+        id: dormitory.id,
+        name: dormitory.name,
+        dorm_number: dormitory.dorm_number,
+        address: dormitory.address,
       });
+    });
 
-      accounts.forEach(account => {
-        accountWorksheet.addRow({
-          id: account.id,
-          balance: account.balance,
-          last_update_date: account.last_update_date,
-          studentId: account.studentId,
-        });
+    accounts.forEach(account => {
+      accountWorksheet.addRow({
+        id: account.id,
+        balance: account.balance,
+        last_update_date: account.last_update_date,
+        studentId: account.studentId,
       });
+    });
 
-      rooms.forEach(room => {
-        roomWorksheet.addRow({
-          id: room.id,
-          block_number: room.block_number,
-          capacity: room.capacity,
-          free_capacity: room.free_capacity,
-          room_name: room.room_name,
-          dormitoryId: room.dormitoryId,
-        });
+    rooms.forEach(room => {
+      roomWorksheet.addRow({
+        id: room.id,
+        block_number: room.block_number,
+        capacity: room.capacity,
+        free_capacity: room.free_capacity,
+        room_name: room.room_name,
+        dormitoryId: room.dormitoryId,
       });
+    });
 
-      visitors.forEach(visitor => {
-        visitorWorksheet.addRow({
-          id: visitor.id,
-          name: visitor.name,
-          surname: visitor.surname,
-          passport: visitor.passport,
-        });
+    visitors.forEach(visitor => {
+      visitorWorksheet.addRow({
+        id: visitor.id,
+        name: visitor.name,
+        surname: visitor.surname,
+        passport: visitor.passport,
       });
+    });
 
-      workers.forEach(worker => {
-        workerWorksheet.addRow({
-          id: worker.id,
-          name: worker.name,
-          surname: worker.surname,
-          salary: worker.salary,
-          position: worker.position,
-          dormitoryId: worker.dormitoryId,
-        });
+    workers.forEach(worker => {
+      workerWorksheet.addRow({
+        id: worker.id,
+        name: worker.name,
+        surname: worker.surname,
+        salary: worker.salary,
+        position: worker.position,
+        dormitoryId: worker.dormitoryId,
       });
+    });
 
-       studentVisitor.forEach(student_visitor => {
-         studentVisitorWorksheet.addRow({
-           id: student_visitor.id,
-           studentId: student_visitor.studentId,
-           visitorId: student_visitor.visitorId,
-         });
-       });
+    studentVisitor.forEach(student_visitor => {
+      studentVisitorWorksheet.addRow({
+        id: student_visitor.id,
+        studentId: student_visitor.studentId,
+        visitorId: student_visitor.visitorId,
+      });
+    });
 
-    await workbook.xlsx.writeFile('./static/excel_table.xlsx');
-    console.log('Excel файл збережений.');
-
+    return workbook;
   } catch (error) {
     console.error('Помилка при експорті в Excel:', error);
   }

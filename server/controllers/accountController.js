@@ -39,7 +39,7 @@ class AccountController {
                 return next(ApiError.badRequest('Рахунок не знайдено'));
             }
 
-            if(studentId != null && studentId != account.id){
+            if (studentId != null && studentId != account.id) {
                 return next(ApiError.badRequest('Не можна змінити власника рахунку'));
             }
 
@@ -55,7 +55,7 @@ class AccountController {
         try {
             const { studentId } = req.params;
             const { balance } = req.body;
-            const account = await Account.findOne({where:{studentId}});
+            const account = await Account.findOne({ where: { studentId } });
 
             if (!account) {
                 return next(ApiError.badRequest('Рахунок не знайдено'));
@@ -69,11 +69,16 @@ class AccountController {
         }
     }
 
-    async importToExcel(req,res, next){
-        try{
-            importExcel();
-            return res.json('Імпортовано успішно');
-        }catch(e){
+    async importToExcel(req, res, next) {
+        try {
+            const workbook = await importExcel();
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats');
+            res.setHeader("Content-Disposition", "attachment; filename=" + "excel_table.xlsx");
+            
+            return workbook.xlsx.write(res).then(function () {
+                res.status(200).end();
+            });
+        } catch (e) {
             next(ApiError.badRequest(e.message));
         }
     }
