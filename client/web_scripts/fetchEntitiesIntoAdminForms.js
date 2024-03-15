@@ -20,6 +20,18 @@ async function fetchRooms() {
     }
 }
 
+async function fetchStudents(dormNumber) {
+    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+    const students = await response.json();
+    console.log(students);
+    return students;
+}
+
 async function setDormitoriesIntoSelect(identificator) {
 
     const dormitories = await fetchDormitories();
@@ -66,16 +78,27 @@ async function getDormIdbyNumb(dorm_number) {
 setDormitoriesIntoSelect('student_dorm_number');
 setDormitoriesIntoSelect('room_dorm_number');
 setDormitoriesIntoSelect('worker_dorm_number');
+setDormitoriesIntoSelect('visitor_dorm_number');
 
-let choices;
+let room_name_choices;
+let student_choices;
 
 document.addEventListener('DOMContentLoaded', function () {
-    const element = document.getElementById('student_room_name');
+    const e1 = document.getElementById('student_room_name');
+    const e2 = document.getElementById('visitor_studentId');
     
-    if (element) {
-        choices = new Choices(element, {
+    if (e1) {
+        room_name_choices = new Choices(e1, {
             searchEnabled: true,
             searchPlaceholderValue: 'Кімната...',
+            itemSelectText: 'Натисніть щоб вибрати'
+        });
+    }
+
+    if(e2){
+        student_choices = new Choices(e2, {
+            searchEnabled: true,
+            searchPlaceholderValue: 'Студент...',
             itemSelectText: 'Натисніть щоб вибрати'
         });
     }
@@ -84,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 async function setRoomNameSelect() {
-    choices.clearChoices();
+    room_name_choices.clearChoices();
 
     const rooms = await fetchRooms();
     
@@ -92,7 +115,7 @@ async function setRoomNameSelect() {
     const selectedOption = addStudent_dormitory_numberElement.value;
 
     if(!selectedOption){
-        choices.setValue([""]);
+        room_name_choices.setValue([""]);
         return;
     }
     const addStudent_dormitory_id = await getDormIdbyNumb(selectedOption);
@@ -104,11 +127,39 @@ async function setRoomNameSelect() {
         }));
     
     if(options.length > 0){
-        choices.setChoices(options, 'value', 'label', true);
+        room_name_choices.setChoices(options, 'value', 'label', true);
         const first_option = options[0];
-        choices.setChoiceByValue(first_option.value);
+        room_name_choices.setChoiceByValue(first_option.value);
     }else{
-        console.log(choices);
-        choices.setValue([""]);
+        console.log(room_name_choices);
+        room_name_choices.setValue([""]);
+    }
+}
+
+async function setStudentsSelect() {
+    student_choices.clearChoices();
+    
+    const addVisitor_dormitory_numberElement = document.querySelector('#visitor_dorm_number');
+    const selectedOption = addVisitor_dormitory_numberElement.value;
+
+    if(!selectedOption){
+        student_choices.setValue([""]);
+        return;
+    }
+
+    const students = await fetchStudents(selectedOption);
+
+    const options = students.map(student => ({
+            value: student.id,
+            label: student.name.concat(' ', student.surname, ', ', student.room.room_name)
+        }));
+    
+    if(options.length > 0){
+        student_choices.setChoices(options, 'value', 'label', true);
+        const first_option = options[0];
+        student_choices.setChoiceByValue(first_option.value);
+    }else{
+        console.log(student_choices);
+        student_choices.setValue([""]);
     }
 }

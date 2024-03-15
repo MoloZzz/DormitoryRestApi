@@ -141,8 +141,12 @@
                     <input type="text" class="form-control" id="visitor_passport" name="visitor_passport" required>
                   </div>
                   <div class="mb-3">
-                    <label for="studentId" class="form-label">ID студента до якого відвідувач:</label>
-                    <input type="text" class="form-control" id="visitor_studentId" name="visitor_studentId" required>
+                    <label for="dormNum" class="form-label">Гуртожиток:</label>
+                    <select name = "visitor_dorm_number" id = "visitor_dorm_number" class="form-control" onchange="setStudentsSelect()">
+                        <option value="" selected></option>
+                    </select>
+                    <label for="studentId" class="form-label">До студента:</label>
+                    <select name = "visitor_studentId" id = "visitor_studentId" class="form-control" ></select>
                   </div>
                   <button type="button" class="btn btn-primary" onclick="addVisitor()">Додати відвідувача</button>
                 </form>
