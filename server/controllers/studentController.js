@@ -104,6 +104,20 @@ class StudentController {
             next(ApiError.badRequest(e.message));
         }
     }
+
+    async getStudentsWithRoomNameByDormNum(req, res, next){
+        try {
+            const { dormitory_num } = req.params;
+            const students = await Student.findAll({
+                where:{dormitory_num}, 
+                include: [{ model: Room, attributes: ['room_name'] }]
+            })
+
+            return res.json(students);
+        } catch (e) {
+            next(ApiError.badRequest(e.message));
+        }
+    }
 }
 
 module.exports = new StudentController();

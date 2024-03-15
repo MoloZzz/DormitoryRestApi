@@ -3,10 +3,6 @@ function ChangeContent(divName) {
 
     allDivs.forEach(function (divId) {
         const currentDiv = document.getElementById(divId);
-        if (divId === divName) {
-            currentDiv.style.display = "block";
-        } else {
-            currentDiv.style.display = "none";
-        }
+        currentDiv.style.display = (divId === divName) ? "block" : "none"; 
     });
 }
