@@ -73,8 +73,7 @@ async function addStudent() {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                room_name,
-                dorm_number
+                room_name, dorm_number
             }),
         });
 
@@ -143,15 +142,7 @@ async function addRoom() {
             return;
         }
 
-        const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                dorm_number
-            }),
-        });
+        const dormResp = await fetch(`http://localhost:9999/api/dormitory/get-by-dorm-num/${dorm_number}`);
 
         if (!dormResp.ok) {
             dorm_number.value = '';

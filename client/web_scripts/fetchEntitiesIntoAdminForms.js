@@ -21,14 +21,8 @@ async function fetchRooms() {
 }
 
 async function fetchStudents(dormNumber) {
-    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`);
     const students = await response.json();
-    console.log(students);
     return students;
 }
 
@@ -52,15 +46,7 @@ async function setDormitoriesIntoSelect(identificator) {
 
 async function getDormIdbyNumb(dorm_number) {
     try {
-        const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                dorm_number
-            }),
-        });
+        const dormResp = await fetch(`http://localhost:9999/api/dormitory/get-by-dorm-num/${dorm_number}`);
 
         if (!dormResp.ok) {
             alert("Виникла помилка з get-by-dorm-num");

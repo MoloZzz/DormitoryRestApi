@@ -30,7 +30,7 @@ class WorkerController {
     }
 
     async getAllByDormNumber(req, res, next) {
-        const { dorm_number } = req.body;
+        const { dorm_number } = req.params;
 
         if (!dorm_number) {
             return next(ApiError.badRequest("В запиті немає номеру гуртожитку"));

@@ -9,6 +9,6 @@ router.get('/:id', WorkerController.getOne);
 
 router.put('/',WorkerController.change);
 
-router.post('/get-all-by-dorm-number/', WorkerController.getAllByDormNumber);
+router.get('/get-all-by-dorm-number/:dorm_number', WorkerController.getAllByDormNumber);
 
 module.exports = router;

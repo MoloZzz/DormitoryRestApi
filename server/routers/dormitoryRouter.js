@@ -7,8 +7,6 @@ router.post('/', DormitoryController.create);
 router.get('/', DormitoryController.getAll);
 router.get('/:id', DormitoryController.getOne);
 
-router.post('/', DormitoryController.create);
-
-router.post('/get-by-dorm-num/', DormitoryController.getByDormNum);
+router.get('/get-by-dorm-num/:dorm_number', DormitoryController.getByDormNum);
 
 module.exports = router;

@@ -43,7 +43,7 @@ class DormitoryController{
 
     async getByDormNum(req, res, next){
         try {
-            const { dorm_number } = req.body;
+            const { dorm_number } = req.params;
             const dorm = await Dormitory.findOne({where:{dorm_number}});
 
             if (!dorm) {

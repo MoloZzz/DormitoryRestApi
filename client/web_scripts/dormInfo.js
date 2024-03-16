@@ -51,15 +51,7 @@ function selectOption(value) {
 
 async function getDormByNum(dorm_number) {
     try {
-        const dormResp = await fetch('http://localhost:9999/api/dormitory/get-by-dorm-num', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                dorm_number
-            }),
-        });
+        const dormResp = await fetch(`http://localhost:9999/api/dormitory/get-by-dorm-num/${dorm_number}`);
 
         if (!dormResp.ok) {
             dormitory_num.value = '';
@@ -133,12 +125,7 @@ async function updateTables() {
 }
 
 async function fetchStudents(dormNumber) {
-    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    });
+    const response = await fetch(`http://localhost:9999/api/student/get-all-by-dormitory-num/${dormNumber}`);
     const students = await response.json();
     console.log(students);
     return students;
@@ -146,15 +133,7 @@ async function fetchStudents(dormNumber) {
 
 async function fetchWorkers(dorm_number) {
     try {
-        const response = await fetch('http://localhost:9999/api/worker/get-all-by-dorm-number', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                dorm_number
-            }),
-        });
+        const response = await fetch(`http://localhost:9999/api/worker/get-all-by-dorm-number/${dorm_number}`);
 
         const workers = await response.json();
 
