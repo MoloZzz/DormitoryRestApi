@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 
 
@@ -12,6 +13,7 @@ const PORT = process.env.PORT || 4141;
 
 const app = express();
 app.use(express.json());
+app.use(fileUpload());
 
 app.use('/api', router);
 
@@ -27,8 +29,7 @@ const start = async () =>{
         await sequelize.sync();
         app.listen(PORT, () => {
             console.log(`Server started on port ${PORT}`);
-        })
-    
+        });
     }catch(e){
         console.log(e);
     }

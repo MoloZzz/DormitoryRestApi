@@ -1,6 +1,7 @@
-const { Account } = require('../db/models');
+const { Account, Dormitory, Visitor, Worker } = require('../db/models');
 const ApiError = require('../error/ApiError');
-const importExcel = require('../db/importExcel');
+const excelManager = require('../db/excelManager');
+const sequelize = require('../db/db');
 
 class AccountController {
 
@@ -71,10 +72,10 @@ class AccountController {
 
     async importToExcel(req, res, next) {
         try {
-            const workbook = await importExcel();
+            const workbook = await excelManager.importToExcel();
             res.setHeader('Content-Type', 'application/vnd.openxmlformats');
             res.setHeader("Content-Disposition", "attachment; filename=" + "excel_table.xlsx");
-            
+
             return workbook.xlsx.write(res).then(function () {
                 res.status(200).end();
             });
@@ -83,7 +84,29 @@ class AccountController {
         }
     }
 
+    async importExcel(req, res, next) {
+        let transaction = await sequelize.transaction();
 
+        try {
+            if (!req.files || Object.keys(req.files).length === 0) {
+                return res.status(400).send('No files were uploaded.');
+            }
+
+            const file = req.files.file;
+
+            // clear tables
+            await sequelize.truncate({ model: Dormitory, cascade: true}, {transaction});
+            await sequelize.truncate({ model: Visitor, cascade: true}, {transaction});
+            await sequelize.truncate({ model: Worker, cascade: true}, {transaction});
+
+            // commit | rollback 
+            await excelManager.importFromExcel(file, transaction);
+            
+            return res.status(200).json({ message: 'File uploaded successfully' });
+        } catch (error) {
+            next(error);
+        }
+    }
 }
 
 module.exports = new AccountController();

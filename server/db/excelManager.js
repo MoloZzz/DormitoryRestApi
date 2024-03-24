@@ -144,7 +144,7 @@ async function importToExcel() {
         studentId: student_visitor.studentId,
         visitorId: student_visitor.visitorId,
       });
-    });
+    }); d
 
     return workbook;
   } catch (error) {
@@ -152,5 +152,193 @@ async function importToExcel() {
   }
 }
 
-module.exports = importToExcel;
+async function importFromExcel(file, transaction) {
+  try {
+    const workbook = new ExcelJS.Workbook();
+    await workbook.xlsx.load(file.data);
+
+    await importDormitories(workbook.getWorksheet('Dormitories'), transaction),
+    await importRooms(workbook.getWorksheet('Rooms'), transaction),
+    await importStudents(workbook.getWorksheet('Students'), transaction),
+    await importAccounts(workbook.getWorksheet('Accounts'), transaction),
+
+    await importVisitors(workbook.getWorksheet('Visitors'), transaction),
+    await importWorkers(workbook.getWorksheet('Workers'), transaction),
+    await importStudentVisitors(workbook.getWorksheet('StudentVisitor'), transaction)
+
+    console.log('Дані успішно імпортовано з Excel файлу.');
+
+    await transaction.commit();
+  } catch (error) {
+    await transaction.rollback();
+    console.error('Помилка при імпорті з Excel:', error);
+    throw new Error(error.detail);
+  }
+}
+
+async function importStudents(worksheet, transaction) {
+  const studentsData = [];
+
+  await worksheet.eachRow((row, rowNumber) => {
+    if (rowNumber !== 1) {
+      studentsData.push({
+        id: row.getCell(1).value,
+        surname: row.getCell(2).value,
+        name: row.getCell(3).value,
+        dormitory_num: row.getCell(4).value,
+        role: row.getCell(5).value,
+        contact_info: row.getCell(6).value,
+        roomId: row.getCell(7).value
+      });
+    }
+  });
+
+  try {
+    await Student.bulkCreate(studentsData, { transaction });
+  } catch (error) {
+    console.error('Error importing students from Excel:', error);
+    throw error;
+  }
+}
+
+async function importDormitories(worksheet, transaction) {
+  const dormitoriesData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      dormitoriesData.push({
+        id: row.getCell(1).value,
+        name: row.getCell(2).value,
+        dorm_number: row.getCell(3).value,
+        address: row.getCell(4).value
+      });
+    }
+  });
+
+  try {
+    await Dormitory.bulkCreate(dormitoriesData, { transaction });
+  } catch (error) {
+    console.error('Error importing dormitories from Excel:', error);
+    throw error;
+  }
+}
+
+
+async function importAccounts(worksheet, transaction) {
+  const accountsData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      accountsData.push({
+        id: row.getCell(1).value,
+        balance: row.getCell(2).value,
+        last_update_date: row.getCell(3).value,
+        studentId: row.getCell(4).value
+      });
+    }
+  });
+
+  try {
+    await Account.bulkCreate(accountsData, { transaction });
+  } catch (error) {
+    console.error('Error importing accounts from Excel:', error);
+    throw error;
+  }
+}
+
+
+async function importRooms(worksheet, transaction) {
+  const roomsData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      roomsData.push({
+        id: row.getCell(1).value,
+        block_number: row.getCell(2).value,
+        capacity: row.getCell(3).value,
+        free_capacity: row.getCell(4).value,
+        room_name: row.getCell(5).value,
+        dormitoryId: row.getCell(6).value
+      });
+    }
+  });
+
+  try {
+    await Room.bulkCreate(roomsData, { transaction });
+  } catch (error) {
+    console.error('Error importing rooms from Excel:', error);
+    throw error;
+  }
+}
+
+async function importVisitors(worksheet, transaction) {
+  const visitorsData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      visitorsData.push({
+        id: row.getCell(1).value,
+        name: row.getCell(2).value,
+        surname: row.getCell(3).value,
+        passport: row.getCell(4).value
+      });
+    }
+  });
+
+  try {
+    await Visitor.bulkCreate(visitorsData, { transaction });
+  } catch (error) {
+    console.error('Error importing visitors from Excel:', error);
+    throw error;
+  }
+}
+
+async function importWorkers(worksheet, transaction) {
+  const workersData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      workersData.push({
+        id: row.getCell(1).value,
+        name: row.getCell(2).value,
+        surname: row.getCell(3).value,
+        salary: row.getCell(4).value,
+        position: row.getCell(5).value,
+        dormitoryId: row.getCell(6).value
+      });
+    }
+  });
+
+  try {
+    await Worker.bulkCreate(workersData, { transaction });
+  } catch (error) {
+    console.error('Error importing workers from Excel:', error);
+    throw error;
+  }
+}
+
+
+async function importStudentVisitors(worksheet, transaction) {
+  const studentVisitorsData = [];
+
+  await worksheet.eachRow(async (row, rowNumber) => {
+    if (rowNumber !== 1) {
+      studentVisitorsData.push({
+        id: row.getCell(1).value,
+        studentId: row.getCell(2).value,
+        visitorId: row.getCell(3).value
+      });
+    }
+  });
+
+  try {
+    await StudentVisitor.bulkCreate(studentVisitorsData, { transaction });
+  } catch (error) {
+    console.error('Error importing student visitors from Excel:', error);
+    throw error;
+  }
+}
+
+
+module.exports = { importToExcel, importFromExcel };
 
