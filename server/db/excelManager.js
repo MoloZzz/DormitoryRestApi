@@ -172,7 +172,7 @@ async function importFromExcel(file, transaction) {
   } catch (error) {
     await transaction.rollback();
     console.error('Помилка при імпорті з Excel:', error);
-    throw new Error(error.detail);
+    throw error;
   }
 }
 
