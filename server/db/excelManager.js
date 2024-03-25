@@ -144,7 +144,7 @@ async function importToExcel() {
         studentId: student_visitor.studentId,
         visitorId: student_visitor.visitorId,
       });
-    }); d
+    });
 
     return workbook;
   } catch (error) {
